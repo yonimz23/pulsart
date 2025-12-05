@@ -139,9 +139,6 @@ const renderPlanDetails = (planKey) => {
     const plan = plansData[planKey];
     const contentEl = document.getElementById('details-content');
     
-    // AQUÍ ESTABA EL ERROR: Se usaban clases de Tailwind (bg-white, p-6, etc.)
-    // CORRECCIÓN: Ahora usamos la clase .details-card que definimos en tu CSS.
-    
     contentEl.innerHTML = `
         <div class="details-card">
             <h3 style="font-size: 1.8rem; color: #FF6600; font-weight: 700; margin-bottom: 10px;">${plan.name}</h3>
@@ -217,15 +214,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- AQUÍ ESTÁ LA CORRECCIÓN DEL FORMULARIO ---
     form.addEventListener('submit', async (e) => {
         e.preventDefault(); 
 
         const formData = new FormData(form);
         const submitButton = form.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
+        const originalButtonText = "Quiero Pre-inscribirme"; // Texto original fijo por si acaso
 
-        successMessage.classList.add('hidden');
-        errorMessage.classList.add('hidden');
+        // Ocultar mensajes previos usando style.display
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
         
         submitButton.disabled = true;
         submitButton.textContent = 'Enviando...';
@@ -240,22 +239,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                form.classList.add('hidden');
-                successMessage.classList.remove('hidden');
+                // ÉXITO: Ocultamos el formulario y mostramos mensaje
+                form.style.display = 'none'; 
+                successMessage.style.display = 'block';
+                // Opcional: Resetear formulario
+                form.reset();
             } else {
-                errorMessage.classList.remove('hidden');
+                // ERROR DE SERVIDOR
+                errorMessage.style.display = 'block';
                 submitButton.disabled = false;
                 submitButton.textContent = originalButtonText;
             }
         } catch (error) {
             console.error('Error al enviar formulario:', error);
-            errorMessage.classList.remove('hidden');
+            // ERROR DE RED
+            errorMessage.style.display = 'block';
             submitButton.disabled = false;
             submitButton.textContent = originalButtonText;
         }
     });
 
-    // BOTÓN VOLVER ARRIBA (Lógica duplicada si ya está en script.js, pero inofensiva)
+    // BOTÓN VOLVER ARRIBA
     const btnBackToTop = document.getElementById("btn-back-to-top");
 
     if(btnBackToTop) {
@@ -271,6 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+    
+    // ANIMACIONES
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -281,12 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Run once
+                observer.unobserve(entry.target); 
             }
         });
     }, observerOptions);
 
-    // Select elements to animate
     const elementsToAnimate = document.querySelectorAll('.bloque-inicio, .summary-card, .persona, .proyecto-card, section h2, .membership-content, .hero-box, .chart-card, .details-card, .benefit-item, .aliado-item');
     elementsToAnimate.forEach(el => {
         el.classList.add('fade-in-section');
