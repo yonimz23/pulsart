@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - PulsArt Media</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="img/pulsart-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="index.html">
+                    <img src="img/pulsart-logo.png" alt="Logo PulsArt Media">
+                    PulsArt Media
+                </a>
+            </div>
+            <button class="hamburger"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="integrantes.html">Equipo</a></li>
+                <li><a href="galeria-imagenes.html">Artistas</a></li>
+                <li><a href="proyectos.html">Distribuciones</a></li>
+                <li><a href="pulsart-crear.html" style="color: #FF6600; font-weight: bold;">CONECTA 360°</a></li>
+                <li><a href="sugerencias.html" class="active">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section-padding bg-white">
+            <h1 class="section-title">Hablemos de tu Proyecto</h1>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 50px; color: #666;">
+                Estamos listos para potenciar tus ideas. Completa el formulario o contáctanos por nuestros canales directos.
+            </p>
+
+            <div class="contact-wrapper">
+                
+                <div class="contact-form-box">
+                    <h3>Envíanos un mensaje</h3>
+                    <form id="sugerencia-form" action="https://formspree.io/f/mjkpqrzn" method="POST">
+                        <div class="form-group">
+                            <label for="nombre">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico</label>
+                                <input type="email" id="email" name="email" required placeholder="tucorreo@ejemplo.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="motivo">Motivo</label>
+                                <select id="motivo" name="motivo">
+                                    <option value="servicio">Cotización de Servicios</option>
+                                    <option value="membresia">Membresías 360°</option>
+                                    <option value="artistas">Contratación Artistas</option>
+                                    <option value="otro">Otro motivo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Cuéntanos más sobre lo que necesitas..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-secondary full-width">Enviar Mensaje</button>
+                    </form>
+                    <div id="form-success" class="msg-success">¡Mensaje enviado con éxito!</div>
+                    <div id="form-error" class="msg-error">Hubo un error. Intenta nuevamente.</div>
+                </div>
+                
+                <div class="contact-info-box">
+                    <h3>Información de Contacto</h3>
+                    <p class="info-intro">Visítanos en nuestras oficinas o escríbenos directamente.</p>
+                    
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <strong>Llámanos</strong>
+                                <a href="tel:+595982250227">+595 982-250-227</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="far fa-envelope"></i>
+                            <div>
+                                <strong>Escríbenos</strong>
+                                <a href="mailto:PulsArtmediapy@gmail.com">PulsArtmediapy@gmail.com</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Ubicación</strong>
+                                <span>ROMA 857 - Asunción, Paraguay</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="far fa-clock"></i>
+                            <div>
+                                <strong>Horario</strong>
+                                <span>Lunes a Viernes: 9:00 - 18:00 hs.</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <a href="https://api.whatsapp.com/send?phone=595982250227" target="_blank" class="btn-whatsapp-contact">
+                        <i class="fab fa-whatsapp"></i> Chatear en WhatsApp
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="map-section">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3607.643322744366!2d-57.6358366!3d-25.2825633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x949012e3b2067759%3A0xe7077e57207c4273!2sRoma%20857%2C%20Asunci%C3%B3n!5e0!3m2!1ses!2spy!4v1701789000000!5m2!1ses!2spy" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+    </main>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-col">
+            <img src="img/pulsart-logo.png" alt="Logo PulsArt" class="footer-logo">
+            
+            <h4>PulsArt Media</h4>
+            <p>Somos una empresa enfocada en proteger y fortalecer ideas, resolviendo los inconvenientes acorde a la necesidad del cliente.</p>
+            
+            <div class="social-links">
+                <h4>Redes Sociales</h4>
+                <a href="https://www.tiktok.com/@pulsart.media?_r=1&_t=ZM-91xQApFDO04"><i class="fab fa-tiktok"></i>TikTok</a>
+                <a href="https://www.instagram.com/pulsart.mediapy"><i class="fab fa-instagram"></i>Instagram</a>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4>Enlaces Rápidos</h4>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="proyectos.html">Distribuciones</a></li>
+                <li><a href="pulsart-crear.html">Conecta 360°</a></li>
+                <li><a href="sugerencias.html">Contacto</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Contacto</h4>
+            <p><i class="fas fa-map-marker-alt"></i> ROMA 857 - Asunción</p>
+            <p><i class="fas fa-phone"></i> +595 982-250-227</p>
+            <p><i class="fas fa-envelope"></i> PulsArtmediapy@gmail.com</p>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>© 2025 PulsArt Media. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+    <a href="https://api.whatsapp.com/send?phone=595982250227" class="whatsapp-float" target="_blank" aria-label="Chat WhatsApp">
+        <img src="img/whatsapp.png" alt="WhatsApp" class="whatsapp-icon">
+    </a>
+    <button id="btn-back-to-top" title="Volver arriba">↑</button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
