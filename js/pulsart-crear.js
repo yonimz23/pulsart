@@ -3,62 +3,61 @@ const plansData = {
         name: '🟡 Plan Básico',
         idealFor: 'Para artistas en etapa de exploración.',
         prices: { founder: 350000, regular: 450000 },
-        saving: 650000,
+        saving: 770000,
         planKey: 'basico',
         features: [
-            '1 asesoría de orientación de proyecto semestral',
-            '1 sesión fotográfica de estudio por semestre (30 fotos)',
-            '1 hora de uso de sala o estudio por mes',
-            '10% de descuento en servicios y talleres EC + PA'
+            '1 asesoría de orientación de venta/imagen semestral (Valor real: 400.000 Gs)',
+            '1 sesión fotográfica de estudio - 50 fotos (Valor real: 500.000 Gs)',
+            '2 horas de Estudio de grabación (Valor real: 220.000 Gs)',
+            '10% de descuento en talleres y servicios adicionales'
         ]
     },
     desarrollo: {
         name: '🟠 Plan Desarrollo',
         idealFor: 'Para artistas que buscan desarrollar y lanzar su propuesta.',
         prices: { founder: 550000, regular: 650000 },
-        saving: 1150000,
+        saving: 2380000,
         planKey: 'desarrollo',
         features: [
-            '1 asesoría integral del proyecto por semestre',
-            '1 sesión fotográfica de estudio por semestre (hasta 80 fotos)',
-            'Registro de obras de 1 expediente por mes (10 obras)',
-            '2 horas de uso de sala o estudio',
-            '1 asesoría sobre redes sociales o identidad visual por semestre',
-            '15% de descuento en servicios EC + PA'
+            '1 asesoría de orientación de venta/imagen semestral (Valor real: 600.000 Gs)',
+            'Registro de obras - hasta 2 expedientes/trimestre (Valor real: 1.000.000 Gs)',
+            '3 horas de Estudio de grabación (Valor real: 330.000 Gs)',
+            '1 asesoría sobre redes sociales e identidad visual (Valor real: 1.000.000 Gs)',
+            '15% de descuento en talleres y servicios seleccionados'
         ]
     },
     pro: {
         name: '🔴 Plan Pro',
-        idealFor: 'Para artistas activos que buscan consolidar su carrera.',
+        idealFor: 'Para profesionales que buscan consolidar su carrera.',
         prices: { founder: 950000, regular: 1100000 },
-        saving: 2550000,
+        saving: 3490000,
         planKey: 'pro',
         features: [
-            'Asesoría integral semestral + seguimiento mensual',
-            'Registro de hasta 2 expedientes mensuales (20 obras)',
-            'Sesión fotográfica + video promocional por semestre',
-            '3 horas de uso de sala o estudio por mes',
-            'Asesoría sobre redes y estrategia digital',
-            'Acceso a encuentros de networking y co-creación',
-            'Para músicos: acceso preferencial a programaciones y shows',
-            '15% de descuento en servicios EC + PA'
+            'Asesoría integral trimestral + seguimiento mensual (Valor real: 1.000.000 Gs)',
+            'Registro de hasta 3 expedientes mensuales (Valor real: 1.500.000 Gs)',
+            '1 Sesión fotográfica y creación de contenido trimestral (Valor real: 1.000.000 Gs)',
+            '4 horas de Estudio de grabación (Valor real: 440.000 Gs)',
+            'Asesoría y gestión para distribución en plataformas (Valor real: 500.000 Gs)',
+            'Acceso gratuito a networking y co-creación',
+            '15% de descuento en servicios y talleres',
+            'Acceso preferencial a shows y circuitos (Músicos)'
         ]
     },
     premium: {
         name: '⚫ Plan Premium',
-        idealFor: 'Para artistas profesionales, colectivos o proyectos con actividad constante.',
+        idealFor: 'Para proyectos con actividad constante y listos para seguir.',
         prices: { founder: 1500000, regular: 1850000 },
-        saving: 7100000,
+        saving: 8080000,
         planKey: 'premium',
         features: [
-            'Asesoría integral trimestral + acompañamiento semanal',
-            'Registro de hasta 4 expedientes de obras mensuales (40 obras)',
-            '4 horas de uso de sala o estudio mensual',
-            'Sesión audiovisual o fotográfica (3h) trimestral',
-            'Representación para eventos y booking, mercados musicales',
-            'Asesoría permanente sobre redes y distribución digital',
-            'Participación prioritaria en convocatorias y eventos',
-            '20% de descuento en servicios EC + PA'
+            'Asesoría integral trimestral + acompañamiento semanal (Valor real: 1.500.000 Gs)',
+            'Registro de hasta 4 expedientes mensuales (Valor real: 1.700.000 Gs)',
+            'Uso de estudio/espacio creativo: 2 horas semanales (Valor real: 880.000 Gs)',
+            'Sesión audiovisual completa y fotos para campaña (Valor real: 3.500.000 Gs)',
+            'Asesoría permanente de redes y distribución digital (Valor real: 2.000.000 Gs)',
+            '20% de descuento en servicios y talleres',
+            'Participación prioritaria en eventos',
+            'Acceso preferencial a programaciones y shows'
         ]
     }
 };
@@ -84,36 +83,54 @@ const renderChart = (priceType) => {
             labels: labels,
             datasets: [
                 {
-                    label: 'Inversión Mensual',
+                    label: 'Tu Inversión Mensual',
                     data: investmentData,
                     backgroundColor: '#FF6600', 
                     borderColor: '#e65c00', 
-                    borderWidth: 1
+                    borderWidth: 1,
+                    borderRadius: 5
                 },
                 {
-                    label: 'Ahorro Estimado',
+                    label: 'Tu Ahorro Estimado (Valor Real)',
                     data: savingsData,
-                    backgroundColor: '#333333', 
+                    backgroundColor: '#1a1a1a', 
                     borderColor: '#000000', 
-                    borderWidth: 1
+                    borderWidth: 1,
+                    borderRadius: 5
                 }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
                         callback: function(value) {
-                            return new Intl.NumberFormat('es-PY').format(value);
-                        }
-                    }
+                            if (value >= 1000000) return (value/1000000) + 'M';
+                            if (value >= 1000) return (value/1000) + 'k';
+                            return value;
+                        },
+                        font: { family: "'Montserrat', sans-serif" }
+                    },
+                    grid: { color: '#f0f0f0' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { family: "'Montserrat', sans-serif", weight: 'bold' } }
                 }
             },
             plugins: {
                 tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: { family: "'Montserrat', sans-serif", size: 14 },
+                    bodyFont: { family: "'Montserrat', sans-serif", size: 13 },
+                    padding: 10,
                     callbacks: {
                         label: function(context) {
                             let label = context.dataset.label || '';
@@ -128,7 +145,12 @@ const renderChart = (priceType) => {
                     }
                 },
                 legend: {
-                    position: 'top',
+                    position: 'bottom',
+                    labels: {
+                        font: { family: "'Montserrat', sans-serif", size: 12 },
+                        usePointStyle: true,
+                        boxWidth: 8
+                    }
                 }
             }
         }
@@ -139,31 +161,45 @@ const renderPlanDetails = (planKey) => {
     const plan = plansData[planKey];
     const contentEl = document.getElementById('details-content');
     
+    // Cálculo del Valor Real Total para mostrar la comparativa
+    const price = currentPriceType === 'founder' ? plan.prices.founder : plan.prices.regular;
+    const realValue = price + plan.saving;
+
     contentEl.innerHTML = `
         <div class="details-card">
-            <h3 style="font-size: 1.8rem; color: #FF6600; font-weight: 700; margin-bottom: 10px;">${plan.name}</h3>
-            <p style="font-style: italic; color: #666; margin-bottom: 20px;">${plan.idealFor}</p>
+            <h3 style="font-size: 1.8rem; color: #FF6600; font-weight: 700; margin-bottom: 5px;">${plan.name}</h3>
+            <p style="font-style: italic; color: #666; margin-bottom: 20px; font-size: 0.95rem;">${plan.idealFor}</p>
             
-            <div class="text-center" style="margin-bottom: 25px;">
-                <p style="font-size: 0.9rem; color: #666;">Precio Lanzamiento</p>
-                <p style="font-size: 2.5rem; font-weight: 900; color: #000; line-height: 1.2;">
-                    ${formatCurrency(plan.prices.founder)}
-                    <span style="font-size: 1rem; font-weight: 400; color: #888;">/mes</span>
-                </p>
-                <p style="font-size: 0.9rem; color: #888;">Precio Regular: ${formatCurrency(plan.prices.regular)}</p>
+            <div style="background: #fafafa; border-radius: 10px; padding: 20px; margin-bottom: 25px; border: 1px solid #eee;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                    <span style="color: #666; font-size: 0.9rem;">Valor Real de Servicios:</span>
+                    <span style="color: #666; font-weight: 700; text-decoration: line-through;">${formatCurrency(realValue)}</span>
+                </div>
+                
+                <div style="text-align: center;">
+                    <p style="font-size: 0.9rem; color: #FF6600; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">
+                        ${currentPriceType === 'founder' ? 'Precio Lanzamiento 🚀' : 'Precio Regular'}
+                    </p>
+                    <p class="price-text-large">
+                        ${formatCurrency(price)}
+                        <span style="font-size: 1rem; font-weight: 400; color: #888;">/mes</span>
+                    </p>
+                </div>
             </div>
 
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 15px; color: #333;">Lo que incluye:</h4>
             <ul class="feature-list">
                 ${plan.features.map(feature => `
                     <li>
                         <span class="check-icon">✓</span>
-                        <span>${feature}</span>
+                        <span style="font-size: 0.95rem; color: #444;">${feature}</span>
                     </li>
                 `).join('')}
             </ul>
             
              <div class="saving-box">
-                <p>Ahorras en este plan aprox. ${formatCurrency(plan.saving)}</p>
+                <i class="fas fa-piggy-bank" style="margin-right: 5px;"></i>
+                Ahorras aprox. ${formatCurrency(plan.saving)} al mes
             </div>
         </div>
     `;
@@ -180,30 +216,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const successMessage = document.getElementById('form-success');
     const errorMessage = document.getElementById('form-error'); 
     
+    // Contador de cupos (Visual)
     const spotsLeftEl = document.getElementById('spots-left');
     let spots = 20;
-    const interval = setInterval(() => {
-        if (spots > 14) {
-            spots--;
-            spotsLeftEl.textContent = spots;
-        } else {
-            clearInterval(interval);
-        }
-    }, 5000);
 
-    founderBtn.addEventListener('click', () => {
-        currentPriceType = 'founder';
-        renderChart(currentPriceType);
-        founderBtn.classList.add('active');
-        regularBtn.classList.remove('active');
-    });
+    if(founderBtn && regularBtn) {
+        founderBtn.addEventListener('click', () => {
+            currentPriceType = 'founder';
+            renderChart(currentPriceType);
+            const activeTab = document.querySelector('.plan-tab.tab-active');
+            if(activeTab) renderPlanDetails(activeTab.getAttribute('data-plan'));
+            
+            founderBtn.classList.add('active');
+            regularBtn.classList.remove('active');
+        });
 
-    regularBtn.addEventListener('click', () => {
-        currentPriceType = 'regular';
-        renderChart(currentPriceType);
-        regularBtn.classList.add('active');
-        founderBtn.classList.remove('active');
-    });
+        regularBtn.addEventListener('click', () => {
+            currentPriceType = 'regular';
+            renderChart(currentPriceType);
+            const activeTab = document.querySelector('.plan-tab.tab-active');
+            if(activeTab) renderPlanDetails(activeTab.getAttribute('data-plan'));
+
+            regularBtn.classList.add('active');
+            founderBtn.classList.remove('active');
+        });
+    }
     
     planTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -214,54 +251,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- AQUÍ ESTÁ LA CORRECCIÓN DEL FORMULARIO ---
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault(); 
+    if(form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
 
-        const formData = new FormData(form);
-        const submitButton = form.querySelector('button[type="submit"]');
-        const originalButtonText = "Quiero Pre-inscribirme"; // Texto original fijo por si acaso
+            const formData = new FormData(form);
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = "Quiero Pre-inscribirme";
 
-        // Ocultar mensajes previos usando style.display
-        successMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-        
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...';
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
 
-        try {
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    form.style.display = 'none'; 
+                    successMessage.style.display = 'block';
+                    form.reset();
+                } else {
+                    errorMessage.style.display = 'block';
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
                 }
-            });
-
-            if (response.ok) {
-                // ÉXITO: Ocultamos el formulario y mostramos mensaje
-                form.style.display = 'none'; 
-                successMessage.style.display = 'block';
-                // Opcional: Resetear formulario
-                form.reset();
-            } else {
-                // ERROR DE SERVIDOR
+            } catch (error) {
+                console.error('Error al enviar formulario:', error);
                 errorMessage.style.display = 'block';
                 submitButton.disabled = false;
                 submitButton.textContent = originalButtonText;
             }
-        } catch (error) {
-            console.error('Error al enviar formulario:', error);
-            // ERROR DE RED
-            errorMessage.style.display = 'block';
-            submitButton.disabled = false;
-            submitButton.textContent = originalButtonText;
-        }
-    });
+        });
+    }
 
     // BOTÓN VOLVER ARRIBA
     const btnBackToTop = document.getElementById("btn-back-to-top");
-
     if(btnBackToTop) {
         window.onscroll = function() {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -292,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    const elementsToAnimate = document.querySelectorAll('.bloque-inicio, .summary-card, .persona, .proyecto-card, section h2, .membership-content, .hero-box, .chart-card, .details-card, .benefit-item, .aliado-item');
+    const elementsToAnimate = document.querySelectorAll('.bloque-inicio, .chart-card, .details-card, .benefit-item, .aliado-item');
     elementsToAnimate.forEach(el => {
         el.classList.add('fade-in-section');
         observer.observe(el);
