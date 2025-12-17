@@ -861,3 +861,30 @@ footer {
         width: 100%;
     }
 }
+/* =========================================
+   BOTÓN DESCARGA APK
+   ========================================= */
+.btn-app-download {
+    background-color: #FF6600; /* Color Naranja PulsArt */
+    color: #ffffff;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-app-download:hover {
+    background-color: #000000; /* Se vuelve negro al pasar el mouse */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.btn-app-download i {
+    font-size: 1.3rem;
+}
