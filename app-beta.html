@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Conecta 360° - Beta v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FF6600;
+            --dark: #333;
+            --light: #f4f4f4;
+            --white: #fff;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        body { background-color: var(--light); height: 100vh; display: flex; flex-direction: column; }
+
+        /* --- LOGIN --- */
+        #login-view {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background: linear-gradient(135deg, #FF6600 0%, #333 100%);
+        }
+        .login-card {
+            background: white; padding: 40px; border-radius: 15px; width: 100%; max-width: 400px;
+            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .login-logo { width: 100px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Montserrat', sans-serif; }
+        .btn-primary {
+            background: var(--primary); color: white; border: none; padding: 12px 20px;
+            border-radius: 5px; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-primary:hover { background: #e55c00; }
+
+        /* --- APP LAYOUT --- */
+        #app-view { display: none; height: 100vh; }
+        .sidebar {
+            width: 250px; background: white; border-right: 1px solid #ddd;
+            display: flex; flex-direction: column; padding: 20px;
+        }
+        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; color: var(--primary); font-weight: 900; }
+        .brand img { width: 40px; }
+        .menu-item {
+            padding: 15px; color: #666; text-decoration: none; border-radius: 10px;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+            transition: 0.2s; cursor: pointer;
+        }
+        .menu-item:hover, .menu-item.active { background: #fff0e6; color: var(--primary); }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .user-profile { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* --- WIDGETS --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .card h3 { color: #888; font-size: 0.9rem; margin-bottom: 10px; }
+        .card .value { font-size: 1.8rem; font-weight: 900; color: var(--dark); }
+
+        /* --- BENEFICIOS STYLES --- */
+        .benefits-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .benefit-card {
+            border: 1px solid #eee; border-radius: 10px; padding: 20px; position: relative;
+            background: #fff; transition: transform 0.2s;
+        }
+        .benefit-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .benefit-icon { 
+            width: 40px; height: 40px; background: #fff0e6; color: var(--primary); 
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; 
+            font-size: 1.2rem; margin-bottom: 15px;
+        }
+        .benefit-tag {
+            position: absolute; top: 20px; right: 20px; font-size: 0.7rem; font-weight: bold;
+            padding: 4px 10px; border-radius: 20px; text-transform: uppercase;
+        }
+        .tag-active { background: #d4edda; color: #155724; }
+        .tag-used { background: #e2e3e5; color: #383d41; }
+        .tag-exclusive { background: linear-gradient(45deg, #FF6600, #ff9e00); color: white; }
+
+        .plan-badge {
+            background: linear-gradient(45deg, #000, #333); color: white; padding: 5px 15px;
+            border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 10px;
+        }
+
+        /* --- TRÁMITES & CALENDARIO --- */
+        .process-track { margin-top: 20px; }
+        .step { display: flex; align-items: center; margin-bottom: 15px; }
+        .step-icon { width: 30px; height: 30px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 0.8rem; color: #aaa; }
+        .step.completed .step-icon { background: var(--success); color: white; }
+        .step.active .step-icon { background: var(--warning); color: white; animation: pulse 2s infinite; }
+        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; text-align: center; }
+        .day { padding: 10px; border-radius: 5px; background: #f9f9f9; cursor: pointer; }
+        .day:hover { background: #eee; }
+        .day.selected { background: var(--primary); color: white; }
+        .day.disabled { color: #ccc; cursor: not-allowed; }
+
+        .section-view { display: none; }
+        .section-view.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            #app-view { flex-direction: column; }
+            .sidebar { width: 100%; flex-direction: row; padding: 10px; overflow-x: auto; border-bottom: 1px solid #ddd; border-right: none; }
+            .brand { display: none; }
+            .menu-item span { display: none; }
+            .menu-item { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-view">
+        <div class="login-card">
+            <img src="img/pulsart-logo.png" alt="PulsArt" class="login-logo">
+            <h2 style="margin-bottom: 10px;">Acceso Miembros</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" value="artista@pulsart.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" value="123456" required>
+                </div>
+                <button type="submit" class="btn-primary">Entrar al Portal</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="app-view">
+        <nav class="sidebar">
+            <div class="brand">
+                <img src="img/pulsart-logo.png" alt="Logo">
+                <span>CONECTA 360°</span>
+            </div>
+            <div class="menu-item active" onclick="showSection('inicio', this)">
+                <i class="fas fa-home"></i> <span>Inicio</span>
+            </div>
+            <div class="menu-item" onclick="showSection('beneficios', this)">
+                <i class="fas fa-star"></i> <span>Mi Membresía</span>
+            </div>
+            <div class="menu-item" onclick="showSection('reservas', this)">
+                <i class="fas fa-calendar-alt"></i> <span>Reservar</span>
+            </div>
+            <div class="menu-item" onclick="showSection('legal', this)">
+                <i class="fas fa-file-contract"></i> <span>Trámites</span>
+            </div>
+            <div class="menu-item" onclick="showSection('comunidad', this)">
+                <i class="fas fa-users"></i> <span>Comunidad</span>
+            </div>
+            <div class="menu-item" style="margin-top: auto; color: #e74c3c;" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> <span>Salir</span>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="header-bar">
+                <div>
+                    <h2 id="page-title">Bienvenido, Mr. Hyde</h2>
+                    <span class="plan-badge">🏆 Miembro Fundador</span>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">MH</div>
+                </div>
+            </div>
+
+            <div id="inicio" class="section-view active">
+                <div class="stats-grid">
+                    <div class="card">
+                        <h3><i class="fas fa-clock" style="color: var(--primary);"></i> Estudio Disponible</h3>
+                        <div class="value">4.5h <span style="font-size: 1rem; color: #999;">/ 5h</span></div>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-money-bill-wave" style="color: #2ecc71;"></i> Ahorro Acumulado</h3>
+                        <div class="value">Gs. 1.2M</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">Acceso Rápido</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="showSection('reservas', document.querySelectorAll('.menu-item')[2])" style="padding: 10px 20px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer;">📅 Agendar Sala</button>
+                        <button onclick="showSection('beneficios', document.querySelectorAll('.menu-item')[1])" style="padding: 10px 20px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer;">📄 Ver mi Contrato</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="beneficios" class="section-view">
+                <h3 style="margin-bottom: 20px;">Tu Plan: Fundador (Premium)</h3>
+                <div class="benefits-container">
+                    
+                    <div class="benefit-card">
+                        <span class="benefit-tag tag-exclusive">Exclusivo</span>
+                        <div class="benefit-icon"><i class="fas fa-snowflake"></i></div>
+                        <h4>Pago Congelado</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Tu tarifa mensual está congelada por 12 meses sin aumentos.</p>
+                        <p style="font-size: 0.8rem; margin-top: 15px; color: var(--success); font-weight: bold;">
+                            <i class="fas fa-check-circle"></i> Activo hasta Oct 2026
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-tag tag-active">Disponible</span>
+                        <div class="benefit-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <h4>Acceso "Golden Hour"</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Prioridad de reserva 48hs antes que el resto de los miembros.</p>
+                        <button onclick="showSection('reservas', document.querySelectorAll('.menu-item')[2])" style="margin-top: 15px; background: none; border: none; color: var(--primary); font-weight: bold; cursor: pointer;">Usar ahora →</button>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-tag tag-used">Entregado</span>
+                        <div class="benefit-icon"><i class="fas fa-gift"></i></div>
+                        <h4>Kit de Bienvenida</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Credencial Premium y Merchandising oficial de PulsArt.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-tag tag-active">1 Pendiente</span>
+                        <div class="benefit-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h4>Masterclass Anual</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Acceso a sesión exclusiva con productores internacionales.</p>
+                        <p style="font-size: 0.8rem; margin-top: 15px;">Próxima: Noviembre 2025</p>
+                    </div>
+
+                     <div class="benefit-card">
+                        <span class="benefit-tag tag-active">Ilimitado</span>
+                        <div class="benefit-icon"><i class="fas fa-globe"></i></div>
+                        <h4>Distribución Digital</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Subida a Spotify, Apple Music y 100+ tiendas sin costo extra por single.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-tag tag-active">Consultas Free</span>
+                        <div class="benefit-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h4>Asesoría Legal Básica</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Consultas rápidas sobre derechos de autor vía WhatsApp o Ticket.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="reservas" class="section-view">
+                <div class="card">
+                    <h3>Agendar Sala (Estudio A)</h3>
+                    <div class="calendar-days">
+                        <div class="day disabled">1</div><div class="day disabled">2</div><div class="day">3</div><div class="day selected">4</div><div class="day">5</div>
+                    </div>
+                    <button class="btn-primary" style="margin-top: 20px; width: auto;" onclick="alert('Reserva solicitada.')">Confirmar</button>
+                </div>
+            </div>
+
+            <div id="legal" class="section-view">
+                <div class="card">
+                    <h3>Registro de Marca: En Proceso</h3>
+                    <div class="process-track">
+                        <div class="step completed"><div class="step-icon">✓</div><div><h4>Ingreso</h4><small>10/08/2025</small></div></div>
+                        <div class="step active"><div class="step-icon">↻</div><div><h4>Publicación</h4><small>En proceso</small></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="comunidad" class="section-view">
+                <div class="card"><h3>Directorio</h3><p>Próximamente...</p></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            this.querySelector('button').innerHTML = 'Cargando...';
+            setTimeout(() => {
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('app-view').style.display = 'flex';
+            }, 800);
+        });
+
+        function showSection(id, el) {
+            document.querySelectorAll('.section-view').forEach(d => d.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            if(el) el.classList.add('active');
+        }
+
+        function logout() {
+            if(confirm('¿Salir?')) location.reload();
+        }
+    </script>
+</body>
+</html>
