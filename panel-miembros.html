@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - Conecta 360°</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-primary: #FF6600;
+            --brand-dark: #1a1a1a;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+            --text-gray: #666;
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        body { background-color: var(--bg-light); color: var(--brand-dark); height: 100vh; display: flex; overflow: hidden; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            height: 100%;
+            border-right: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .brand {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 50px;
+            color: var(--brand-primary);
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+        .brand i { font-size: 1.5rem; }
+
+        .nav-menu { list-style: none; flex: 1; }
+        .nav-item { margin-bottom: 8px; }
+        .nav-link {
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px 18px;
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .nav-link:hover { background: #fff5eb; color: var(--brand-primary); }
+        .nav-link.active { 
+            background: var(--brand-primary); 
+            color: white; 
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+        .nav-link i { width: 20px; text-align: center; }
+
+        .user-mini-profile {
+            margin-top: auto;
+            display: flex; align-items: center; gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .avatar {
+            width: 40px; height: 40px;
+            background: var(--brand-dark);
+            color: white;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+        .user-info h4 { font-size: 0.9rem; margin-bottom: 2px; }
+        .user-info span { font-size: 0.75rem; color: #888; display: block; }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        /* Header Móvil */
+        .mobile-header {
+            display: none; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background: white; margin-bottom: 20px;
+            border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        /* --- WIDGETS --- */
+        .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px; margin-bottom: 40px;
+        }
+        .card {
+            background: white; border-radius: 20px; padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        
+        .card-icon {
+            width: 50px; height: 50px; border-radius: 12px;
+            background: #fff5eb; color: var(--brand-primary);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem; margin-bottom: 20px;
+        }
+        .card-label { color: #888; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-value { font-size: 1.8rem; font-weight: 900; margin-top: 5px; color: var(--brand-dark); }
+        .card-sub { font-size: 0.8rem; color: #2ecc71; font-weight: 600; margin-top: 5px; display: block; }
+
+        /* --- CARNET DIGITAL (NUEVO) --- */
+        .digital-id-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white; border-radius: 20px; padding: 30px;
+            position: relative; overflow: hidden;
+            min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .digital-id-card::before {
+            content: ''; position: absolute; top: -50px; right: -50px;
+            width: 150px; height: 150px; background: var(--brand-primary);
+            opacity: 0.2; border-radius: 50%;
+        }
+        .id-header { display: flex; justify-content: space-between; align-items: start; }
+        .id-logo { font-weight: 900; letter-spacing: -1px; font-size: 1.2rem; }
+        .id-badge { background: var(--brand-primary); padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .id-user h3 { font-size: 1.4rem; margin-bottom: 5px; }
+        .id-user p { font-size: 0.9rem; opacity: 0.7; }
+        .id-footer { display: flex; justify-content: space-between; align-items: end; font-size: 0.8rem; opacity: 0.6; font-family: monospace; }
+
+        /* --- RESERVAS --- */
+        .booking-list { list-style: none; }
+        .booking-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; border-bottom: 1px solid #eee;
+        }
+        .booking-item:last-child { border-bottom: none; }
+        .booking-date { font-weight: 800; color: var(--brand-dark); text-align: center; margin-right: 15px; width: 50px; }
+        .booking-date span { display: block; font-size: 0.7rem; color: #888; font-weight: 500; }
+        .booking-info h5 { margin-bottom: 3px; font-size: 0.95rem; }
+        .booking-info p { font-size: 0.8rem; color: #666; }
+        .status-badge { padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
+        .status-confirmed { background: #d4edda; color: #155724; }
+        .status-pending { background: #fff3cd; color: #856404; }
+
+        /* --- UTILS --- */
+        .btn-primary {
+            background: var(--brand-primary); color: white; border: none;
+            padding: 12px 25px; border-radius: 10px; font-weight: 700;
+            cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: #e55c00; box-shadow: 0 5px 15px rgba(255, 102, 0, 0.2); }
+
+        .view-section { display: none; animation: fadeIn 0.3s ease; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 20px; }
+            .mobile-header { display: flex; }
+            .overlay {
+                display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); z-index: 90;
+            }
+            .overlay.active { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" onclick="toggleSidebar()"></div>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="brand">
+            <i class="fas fa-layer-group"></i> CONECTA 360°
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" onclick="showSection('dashboard', this)">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('reservas', this)">
+                    <i class="fas fa-calendar-alt"></i> Reservar Estudio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('tramites', this)">
+                    <i class="fas fa-file-contract"></i> Mis Trámites
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('perfil', this)">
+                    <i class="fas fa-user-cog"></i> Mi Perfil
+                </a>
+            </li>
+        </ul>
+
+        <div class="user-mini-profile">
+            <div class="avatar">MH</div>
+            <div class="user-info">
+                <h4>Mr. Hyde</h4>
+                <span>Plan Fundador</span>
+            </div>
+            <a href="index.html" style="margin-left: auto; color: #999;"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        
+        <div class="mobile-header">
+            <div style="font-weight: 800; color: var(--brand-primary);">CONECTA 360°</div>
+            <button onclick="toggleSidebar()" style="background:none; border:none; font-size: 1.2rem;"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <div id="dashboard" class="view-section active">
+            <h2 class="section-title">Hola, Mr. Hyde 👋</h2>
+            
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-microphone-alt"></i></div>
+                    <span class="card-label">Horas de Estudio</span>
+                    <div class="card-value">4.5 <span style="font-size: 1rem; color: #999; font-weight: 500;">/ 5h</span></div>
+                    <span class="card-sub">Renueva: 01 Nov</span>
+                </div>
+
+                <div class="digital-id-card">
+                    <div class="id-header">
+                        <div class="id-logo">PulsArt</div>
+                        <div class="id-badge">Fundador</div>
+                    </div>
+                    <div class="id-user">
+                        <h3>Mr. Hyde</h3>
+                        <p>ID: #FD-2025-001</p>
+                    </div>
+                    <div class="id-footer">
+                        <span>Vence: 10/2026</span>
+                        <i class="fas fa-qrcode" style="font-size: 1.5rem;"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                    <span class="card-label">Próxima Sesión</span>
+                    <div class="card-value" style="font-size: 1.3rem;">Jueves 24</div>
+                    <span class="card-sub" style="color: #666;">14:00 - Estudio A</span>
+                    <button class="btn-primary" style="margin-top: 15px; width: 100%; font-size: 0.8rem; padding: 10px;">Ver Calendario</button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="font-size: 1.1rem; font-weight: 800;">Actividad Reciente</h3>
+                        <a href="#" style="color: var(--brand-primary); font-size: 0.8rem; font-weight: 600; text-decoration: none;">Ver todo</a>
+                    </div>
+                    <ul class="booking-list">
+                        <li class="booking-item">
+                            <div class="booking-date">24<span>OCT</span></div>
+                            <div class="booking-info">
+                                <h5>Grabación Voces</h5>
+                                <p>Estudio A • 2 Horas</p>
+                            </div>
+                            <span class="status-badge status-confirmed">Confirmado</span>
+                        </li>
+                        <li class="booking-item">
+                            <div class="booking-date">10<span>OCT</span></div>
+                            <div class="booking-info">
+                                <h5>Asesoría Legal</h5>
+                                <p>Zoom • 45 min</p>
+                            </div>
+                            <span class="status-badge status-confirmed">Finalizado</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" style="background: #fffcf5; border-color: #ffeeba;">
+                    <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 10px;">🚀 Sube de Nivel</h3>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6;">
+                        ¿Necesitas más horas de estudio o distribución ilimitada? Pásate al plan <strong>Premium</strong> y desbloquea todo.
+                    </p>
+                    <button class="btn-primary" style="background: var(--brand-dark);">Ver Planes</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="reservas" class="view-section">
+            <h2 class="section-title">Agendar Espacio</h2>
+            <div class="card">
+                <p style="color: #666; margin-bottom: 20px;">Selecciona el servicio y la fecha disponible.</p>
+                <div style="background: #eee; height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999;">
+                    [Aquí iría el Calendario Interactivo]
+                </div>
+            </div>
+        </div>
+
+        <div id="tramites" class="view-section">
+            <h2 class="section-title">Estado de Trámites</h2>
+            <div class="card">
+                <ul class="booking-list">
+                    <li class="booking-item">
+                        <div class="booking-icon" style="margin-right: 15px; color: var(--brand-primary);"><i class="fas fa-copyright fa-2x"></i></div>
+                        <div class="booking-info">
+                            <h5>Registro de Marca "Mr. Hyde"</h5>
+                            <p>Expediente #998822 • En proceso de publicación</p>
+                        </div>
+                        <span class="status-badge status-pending">En Proceso</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function showSection(id, element) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            // Mostrar la elegida
+            document.getElementById(id).classList.add('active');
+            
+            // Actualizar menú
+            if(element) {
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                element.classList.add('active');
+            }
+            
+            // En móvil, cerrar sidebar al clickear
+            if(window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

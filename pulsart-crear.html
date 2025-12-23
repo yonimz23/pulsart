@@ -11,7 +11,7 @@
     <link rel="icon" href="img/conecta.png" type="image/png">
     
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
@@ -21,6 +21,7 @@
             --brand-dark: #1a1a1a;
             --text-gray: #555;
             --bg-light: #f8f9fa;
+            --header-height: 70px; /* Altura estimada del menú */
         }
         
         body { font-family: 'Montserrat', sans-serif; background: var(--bg-light); color: var(--brand-dark); margin: 0; padding: 0; }
@@ -29,49 +30,49 @@
         header {
             background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
-            padding: 15px;
+            padding: 15px 0;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            height: var(--header-height); /* Altura fija para cálculos */
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .back-link {
             color: var(--brand-primary); font-weight: 700; text-decoration: none;
-            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 5px;
         }
 
-        /* --- INTRO SECCIÓN (Textos Originales) --- */
+        /* --- INTRO SECCIÓN --- */
         .intro-section {
-            padding: 60px 20px 40px; text-align: center; max-width: 1000px; margin: 0 auto;
+            padding: 40px 20px; text-align: center; max-width: 900px; margin: 0 auto;
         }
         .main-title {
-            font-size: 2.8rem; font-weight: 900; line-height: 1.2; margin-bottom: 10px; color: var(--brand-primary);
+            font-size: 2.5rem; font-weight: 900; line-height: 1.2; margin-bottom: 15px; color: var(--brand-dark);
         }
-        .subtitle {
-            font-weight: 700; font-size: 1.2rem; margin-bottom: 30px; color: #333;
-        }
+        .main-title span { color: var(--brand-primary); }
+        
         .description-text {
-            max-width: 900px; margin: 0 auto 40px auto; text-align: justify; 
-            line-height: 1.8; font-size: 1.1rem; color: #444;
+            max-width: 800px; margin: 0 auto 30px auto; text-align: justify; 
+            line-height: 1.6; font-size: 1rem; color: #444;
         }
         
         .hero-box { 
-            border: 2px dashed var(--brand-primary); 
-            border-radius: 20px; 
-            padding: 40px; 
-            margin-top: 40px; 
-            background: #fff; 
-            text-align: justify;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--brand-primary);
+            background: #fff; padding: 30px; text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 0 15px 15px 0;
+            margin-top: 30px;
         }
-        .hero-box h3 { color: var(--brand-primary); font-size: 1.8rem; margin-bottom: 20px; text-align: center; margin-top: 0; }
-        .hero-box p { margin-bottom: 20px; font-size: 1.05rem; line-height: 1.7; color: #333; }
-        .hero-box p:last-child { margin-bottom: 0; }
+        .hero-box h3 { color: var(--brand-primary); font-size: 1.3rem; margin-bottom: 15px; margin-top: 0; }
+        .hero-box p { margin-bottom: 15px; font-size: 0.95rem; line-height: 1.6; color: #333; }
 
-        /* --- TABLA PREMIUM (Diseño Mejorado) --- */
+        /* --- TABLA PREMIUM (OPTIMIZADA) --- */
         .comparison-wrapper {
-            margin: 60px auto; max-width: 1200px; padding: 0 15px;
+            margin: 50px auto; max-width: 1200px; padding: 0 10px;
         }
         
         .table-scroll-container {
@@ -81,32 +82,29 @@
             border-radius: 15px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
-            /* Scrollbar personalizado */
-            scrollbar-width: thin;
-            scrollbar-color: var(--brand-primary) #eee;
             padding-bottom: 5px;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* Scroll suave iOS */
         }
         
         .premium-table {
             width: 100%;
             border-collapse: separate; 
             border-spacing: 0;
-            min-width: 1100px; /* Ancho suficiente para que el texto respire */
+            min-width: 900px; /* Ancho suficiente */
         }
 
         /* Cabecera */
         .premium-table th {
             background: var(--brand-dark);
             color: white;
-            padding: 22px 15px;
+            padding: 20px 15px;
             text-transform: uppercase;
             font-size: 0.85rem;
             letter-spacing: 0.5px;
             font-weight: 800;
             border-bottom: 4px solid var(--brand-primary);
             position: sticky;
-            top: 0;
+            top: 0; /* Fallback */
             z-index: 10;
             vertical-align: middle;
         }
@@ -119,9 +117,9 @@
             background: white; 
             z-index: 20;
             border-right: 1px solid #eee;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.03);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
             text-align: left;
-            padding-left: 25px;
+            padding-left: 20px;
             color: var(--brand-dark);
             font-weight: 800;
             min-width: 200px;
@@ -147,144 +145,83 @@
         .premium-table tr:hover td { background-color: #fff8f0; } 
         .premium-table tr:hover td:first-child { background-color: #fff; }
         
-        /* Estilos de Texto dentro de celda */
         .real-value {
-            display: block;
-            font-size: 0.75rem;
-            color: #999;
-            margin-top: 8px;
-            font-weight: 500;
-            font-style: italic;
-            border-top: 1px dashed #eee;
-            padding-top: 4px;
+            display: block; font-size: 0.75rem; color: #999; margin-top: 8px;
+            font-weight: 500; font-style: italic; border-top: 1px dashed #eee; padding-top: 4px;
         }
-        .ideal-for {
-            font-style: italic; color: #666; font-size: 0.8rem; margin-bottom: 5px;
-        }
-        .highlight-cell {
-            background-color: rgba(255, 102, 0, 0.02);
-            font-weight: 600;
-            color: #222;
-        }
+        .highlight-cell { background-color: rgba(255, 102, 0, 0.02); font-weight: 600; color: #222; }
         .na-cell { color: #ddd; font-weight: 300; font-size: 1.5rem; }
         
-        .price-tag {
-            font-size: 1.1rem; font-weight: 900; color: var(--brand-primary); display: block;
-        }
-        .saving-tag {
-            background: #d4edda; color: #155724; font-size: 0.75rem; padding: 4px 8px; 
-            border-radius: 10px; font-weight: 700; display: inline-block; margin-top: 5px;
-        }
+        .price-tag { font-size: 1.1rem; font-weight: 900; color: var(--brand-primary); display: block; }
+        .saving-tag { background: #d4edda; color: #155724; font-size: 0.75rem; padding: 4px 8px; border-radius: 10px; font-weight: 700; display: inline-block; margin-top: 5px; }
 
-        /* --- CHART & TABS --- */
+        /* --- GRÁFICOS Y TABS --- */
         .chart-card { 
-            background: white; padding: 30px; border-radius: 20px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06); margin: 40px auto; 
+            background: white; padding: 20px; border-radius: 20px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06); margin: 30px auto; 
             max-width: 900px; border: 1px solid #f0f0f0;
         }
-        .price-toggle { 
-            display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; 
-        }
-        .toggle-btn { 
-            padding: 8px 25px; border-radius: 25px; border: none; cursor: pointer; 
-            background: #eee; font-weight: 600; transition: 0.3s;
-        }
-        .toggle-btn.active { 
-            background-color: var(--brand-primary); color: white; box-shadow: 0 4px 10px rgba(255, 102, 0, 0.3);
-        }
+        .price-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .toggle-btn { padding: 8px 20px; border-radius: 25px; border: none; cursor: pointer; background: #eee; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .toggle-btn.active { background-color: var(--brand-primary); color: white; box-shadow: 0 4px 10px rgba(255, 102, 0, 0.3); }
 
-        .tabs-container { 
-            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px;
-        }
-        .plan-tab { 
-            background: white; border: 2px solid #eee; padding: 12px 25px; cursor: pointer; 
-            font-weight: 700; color: #888; border-radius: 50px; transition: 0.3s;
-        }
+        .tabs-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 30px; }
+        .plan-tab { background: white; border: 2px solid #eee; padding: 10px 15px; cursor: pointer; font-weight: 700; color: #888; border-radius: 50px; transition: 0.3s; font-size: 0.85rem; }
         .plan-tab:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
-        .plan-tab.tab-active { 
-            background: var(--brand-primary); color: white; border-color: var(--brand-primary); 
-            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
-        }
+        .plan-tab.tab-active { background: var(--brand-primary); color: white; border-color: var(--brand-primary); box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3); }
         
-        .details-card { 
-            background: white; border: 1px solid #eee; border-radius: 15px; padding: 40px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; text-align: left; 
-        }
-        .feature-list { list-style: none; padding: 0; margin: 20px 0; }
-        .feature-list li { margin-bottom: 12px; display: flex; align-items: start; line-height: 1.5; }
-        .check-icon { color: #2ecc71; margin-right: 12px; font-weight: bold; }
-        .saving-box { 
-            background-color: #fff3cd; color: #856404; padding: 15px; 
-            border-radius: 8px; margin-top: 30px; font-weight: 700; text-align: center; border: 1px solid #ffeeba;
-        }
+        .details-card { background: white; border: 1px solid #eee; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; text-align: left; }
+        .feature-list { list-style: none; padding: 0; margin: 15px 0; }
+        .feature-list li { margin-bottom: 12px; display: flex; align-items: start; gap: 10px; line-height: 1.4; font-size: 0.95rem; }
+        .check-icon { color: #2ecc71; font-weight: bold; min-width: 20px; }
 
-        /* --- FUNDADORES --- */
+        /* --- FUNDADORES & EXTRAS --- */
         #founders { 
-            background: linear-gradient(135deg, #FF6600 0%, #ff4500 100%); 
-            color: white; padding: 80px 20px; margin-top: 60px;
-            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+            background: linear-gradient(135deg, #FF6600 0%, #ff4500 100%); color: white; padding: 60px 20px; margin-top: 40px;
+            clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
         }
-        .benefits-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 30px; max-width: 1100px; margin: 50px auto 0;
-        }
-        .benefit-item { 
-            background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; 
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s;
-        }
-        .benefit-item:hover { transform: translateY(-5px); background: rgba(255,255,255,0.2); }
-        .benefit-item h3 { color: #fff; font-size: 1.3rem; margin-bottom: 10px; margin-top: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .benefit-item p { color: #fff; font-size: 0.95rem; line-height: 1.5; margin: 0; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 1100px; margin: 40px auto 0; }
+        .benefit-item { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+        .benefit-item h3 { color: #fff; font-size: 1.2rem; margin: 0 0 10px 0; }
+        .benefit-item p { color: #fff; font-size: 0.9rem; line-height: 1.5; margin: 0; opacity: 0.95; }
         
-        .aliados-list {
-            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;
-        }
-        .aliado-item {
-            font-weight: 700; color: #555; font-size: 1.1rem; border: 2px solid #eee;
-            padding: 10px 25px; border-radius: 50px; background: #fff;
-        }
+        .aliados-list { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+        .aliado-item { font-weight: 700; color: #555; font-size: 0.9rem; border: 2px solid #eee; padding: 8px 20px; border-radius: 50px; background: #fff; }
 
         /* --- FORMULARIO --- */
-        #cta {
-            max-width: 700px; margin: 80px auto; background: white; padding: 50px; 
-            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        }
-        .form-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;
-        }
-        .form-input {
-            width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px;
-            font-family: 'Montserrat', sans-serif; transition: 0.3s; box-sizing: border-box;
-        }
+        #cta { max-width: 700px; margin: 50px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-input { width: 100%; padding: 14px; border: 2px solid #eee; border-radius: 10px; font-family: 'Montserrat', sans-serif; transition: 0.3s; box-sizing: border-box; font-size: 0.95rem; }
         .form-input:focus { border-color: var(--brand-primary); outline: none; }
-        .btn-submit {
-            width: 100%; background: var(--brand-primary); color: white; border: none; 
-            padding: 18px; font-weight: 800; border-radius: 10px; cursor: pointer; 
-            font-size: 1.1rem; letter-spacing: 1px; transition: 0.3s;
-        }
-        .btn-submit:hover { background: #e55c00; transform: scale(1.02); }
+        .btn-submit { width: 100%; background: var(--brand-dark); color: white; border: none; padding: 18px; font-weight: 800; border-radius: 10px; cursor: pointer; font-size: 1rem; letter-spacing: 1px; transition: 0.3s; text-transform: uppercase; }
+        .btn-submit:hover { background: var(--brand-primary); transform: scale(1.02); }
 
-        /* --- RESPONSIVE --- */
+        /* --- MEDIA QUERIES (MÓVIL) --- */
         @media (max-width: 768px) {
-            .intro-section { padding: 30px 20px; }
-            .main-title { font-size: 2.2rem; }
+            .main-title { font-size: 2rem; }
+            .hero-box { padding: 25px; }
             
-            .premium-table th, .premium-table td { font-size: 0.8rem; padding: 15px 10px; }
+            /* Ajustes Tabla Móvil */
+            .premium-table th, .premium-table td { font-size: 0.75rem; padding: 12px 8px; }
             
-            /* Ajuste crítico para columna fija en móvil */
+            /* FIX CRÍTICO: La cabecera se pega DEBAJO del menú */
+            .premium-table th { 
+                top: 0; /* Si el menú es fixed, esto puede necesitar ajuste, pero 'sticky' suele funcionar relativo al viewport */
+                z-index: 15; /* Asegurar que esté sobre la columna fija si es necesario */
+            }
+            /* En móvil, la primera columna fija debe ser más estrecha */
             .premium-table th:first-child, 
             .premium-table td:first-child { 
-                min-width: 140px; 
-                max-width: 140px;
+                min-width: 110px; 
+                max-width: 110px;
                 padding-left: 10px; 
-                font-size: 0.8rem;
-                white-space: normal;
+                font-size: 0.75rem;
+                white-space: normal; /* Permitir salto de línea */
+                word-wrap: break-word;
             }
             
             .form-grid { grid-template-columns: 1fr; gap: 15px; }
-            #cta { padding: 30px 20px; margin: 40px auto; }
-            #founders { clip-path: polygon(0 30px, 100% 0, 100% 100%, 0 100%); padding: 60px 20px; }
+            #founders { padding: 50px 20px; clip-path: polygon(0 30px, 100% 0, 100% 100%, 0 100%); }
         }
     </style>
 </head>
@@ -297,8 +234,8 @@
     </header>
 
     <div class="intro-section">
-        <h1 class="main-title">Membresías CONECTA 360°</h1>
-        <p class="subtitle">Un programa de Estación Crear y PulsArt Media.</p>
+        <h1 class="main-title">Membresías <span>CONECTA 360°</span></h1>
+        <p class="subtitle" style="font-size: 1rem; color: #666; margin-top: -10px;">Un programa de Estación Crear y PulsArt Media.</p>
         
         <p class="description-text">
             CONECTA 360 es un programa de acompañamiento profesional para artistas, emprendedores y personas creativas en Paraguay. La plataforma cultural Estación Crear, PulsArt Media y sus aliados, desarrollan este programa que integra servicios creativos, asesorías especializadas y beneficios exclusivos para impulsar el desarrollo sostenible de proyectos artísticos y culturales.
@@ -309,16 +246,16 @@
              <p>
                 Brindamos acompañamiento profesional integral, servicios especializados y beneficios. Tendrás acceso a mentorías, espacios de formación, producción, servicios de gestión legal, registro de obras, comunicación profesional y oportunidades de visibilidad mediante una suscripción mensual a un costo muy inferior al valor real.
              </p>
-             <p style="font-weight: 700; color: #000;">
+             <p style="font-weight: 700; color: #000; margin-top: 15px;">
                 Ser miembro de CONECTA 360 es formar parte de una comunidad donde podés sentirte acompañadx para desarrollar tu carrera, marca personal o emprendimiento.
              </p>
         </div>
     </div>
 
     <section id="plans" style="padding: 20px;">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 2rem; font-weight: 900; color: var(--brand-dark); margin-bottom: 10px;">Nuestros Planes</h2>
-            <p style="color: #777; font-size: 1rem;">Elegí el plan que mejor se adapte a tu etapa profesional.</p>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="font-size: 2rem; font-weight: 900; color: var(--brand-dark); margin-bottom: 5px;">Nuestros Planes</h2>
+            <p style="color: #777; font-size: 0.95rem;">Elegí el plan que mejor se adapte a tu etapa profesional.</p>
         </div>
         
         <div class="chart-card">
@@ -329,33 +266,33 @@
                     <button id="regularPriceBtn" class="toggle-btn">Regular</button>
                 </div>
             </div>
-            <div style="position: relative; height: 350px; width: 100%;">
+            <div style="position: relative; height: 300px; width: 100%;">
                 <canvas id="plansChart"></canvas>
             </div>
         </div>
 
         <div id="plan-details" style="max-width: 900px; margin: 0 auto;">
             <div class="tabs-container">
-                <button data-plan="basico" class="plan-tab tab-active">🟡 Plan Básico</button>
-                <button data-plan="desarrollo" class="plan-tab">🟠 Plan Desarrollo</button>
-                <button data-plan="pro" class="plan-tab">🔴 Plan Pro</button>
-                <button data-plan="premium" class="plan-tab">⚫ Plan Premium</button>
+                <button data-plan="basico" class="plan-tab tab-active">🟡 Básico</button>
+                <button data-plan="desarrollo" class="plan-tab">🟠 Desarrollo</button>
+                <button data-plan="pro" class="plan-tab">🔴 Pro</button>
+                <button data-plan="premium" class="plan-tab">⚫ Premium</button>
             </div>
             <div id="details-content">
                 </div>
         </div>
 
         <div class="comparison-wrapper">
-            <div style="text-align: center; margin-bottom: 25px;">
-                <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 5px;">Comparativa Completa de Servicios</h3>
-                <p style="font-size: 0.9rem; color: #888;">Desliza para ver todas las características <i class="fas fa-arrow-right"></i></p>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 5px;">Comparativa Completa</h3>
+                <p style="font-size: 0.85rem; color: #888;">Desliza la tabla para ver todos los detalles <i class="fas fa-arrow-right"></i></p>
             </div>
             
             <div class="table-scroll-container">
                 <table class="premium-table">
                     <thead>
                         <tr>
-                            <th>Característica / Servicio</th>
+                            <th>Característica</th>
                             <th>🟡 Básico</th>
                             <th>🟠 Desarrollo</th>
                             <th>🔴 PRO</th>
@@ -363,28 +300,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Perfil Ideal</td>
-                            <td><div class="ideal-for">Para artistas en etapa de exploración.</div></td>
-                            <td><div class="ideal-for">Para artistas que buscan desarrollar y lanzar su propuesta.</div></td>
-                            <td><div class="ideal-for">Para profesionales que buscan consolidar su carrera.</div></td>
-                            <td><div class="ideal-for">Para proyectos con actividad constante.</div></td>
-                        </tr>
-
-                        <tr style="background: #fffcf9;">
+                        <tr style="background-color: #fffbf7;">
                             <td>Inversión Mensual<br><small style="color: #888;">Precio Fundador</small></td>
                             <td><span class="price-tag">350.000 Gs</span></td>
                             <td><span class="price-tag">550.000 Gs</span></td>
                             <td><span class="price-tag">950.000 Gs</span></td>
                             <td><span class="price-tag">1.500.000 Gs</span></td>
                         </tr>
-
                         <tr>
-                            <td>Ahorro Estimado<br><small style="color: #888;">vs Valor Real</small></td>
-                            <td><span class="saving-tag">Ahorras 770.000 Gs</span></td>
-                            <td><span class="saving-tag">Ahorras 2.380.000 Gs</span></td>
-                            <td><span class="saving-tag">Ahorras 3.490.000 Gs</span></td>
-                            <td><span class="saving-tag">Ahorras 8.080.000 Gs</span></td>
+                            <td>Ahorro Mensual<br><small style="color: #888;">vs Valor Real</small></td>
+                            <td><span class="saving-tag">Ahorras 770k</span></td>
+                            <td><span class="saving-tag">Ahorras 2.3M</span></td>
+                            <td><span class="saving-tag">Ahorras 3.4M</span></td>
+                            <td><span class="saving-tag">Ahorras 8M</span></td>
                         </tr>
 
                         <tr>
@@ -404,7 +332,7 @@
                         </tr>
 
                         <tr>
-                            <td>Fotografía y Audiovisual</td>
+                            <td>Fotografía y Video</td>
                             <td>1 sesión fotográfica de estudio - 50 fotos<span class="real-value">Valor real: 500.000 Gs</span></td>
                             <td class="na-cell">-</td>
                             <td class="highlight-cell">1 Sesión fotográfica y creación de contenido trimestral<span class="real-value">Valor real: 1.000.000 Gs</span></td>
@@ -412,7 +340,7 @@
                         </tr>
 
                         <tr>
-                            <td>Registro de Obras (DINAPI)</td>
+                            <td>Registro de Obras</td>
                             <td class="na-cell">-</td>
                             <td>Registro de obras - hasta 2 expedientes/trimestre<span class="real-value">Valor real: 1.000.000 Gs</span></td>
                             <td class="highlight-cell">Registro de hasta 3 expedientes mensuales<span class="real-value">Valor real: 1.500.000 Gs</span></td>
@@ -420,19 +348,19 @@
                         </tr>
 
                         <tr>
-                            <td>Redes Sociales & Distribución</td>
+                            <td>Redes e Identidad</td>
                             <td class="na-cell">-</td>
                             <td>1 asesoría sobre redes sociales e identidad visual<span class="real-value">Valor real: 1.000.000 Gs</span></td>
                             <td class="highlight-cell">Asesoría y gestión para distribución en plataformas<span class="real-value">Valor real: 500.000 Gs</span></td>
                             <td class="highlight-cell">Asesoría permanente de redes y distribución digital<span class="real-value">Valor real: 2.000.000 Gs</span></td>
                         </tr>
 
-                         <tr>
-                            <td>Accesos y Beneficios Extra</td>
+                        <tr>
+                            <td>Beneficios Extra</td>
                             <td>10% de descuento en talleres y servicios adicionales</td>
                             <td>15% de descuento en talleres y servicios seleccionados</td>
-                            <td class="highlight-cell">Acceso gratuito a networking + Acceso preferencial a shows<span class="real-value">15% OFF Servicios</span></td>
-                            <td class="highlight-cell">Participación prioritaria + Acceso preferencial a shows<span class="real-value">20% OFF Servicios</span></td>
+                            <td class="highlight-cell">Acceso gratuito a networking, co-creación y preferencial a shows</td>
+                            <td class="highlight-cell">Participación prioritaria en eventos y preferencial a shows</td>
                         </tr>
                     </tbody>
                 </table>
@@ -442,36 +370,37 @@
 
     <section id="founders">
         <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
-            <h2 style="font-size: 2.5rem; font-weight: 900; color: #fff; margin-bottom: 10px;">Beneficios Exclusivos Miembros Fundadores</h2>
-            <p style="color: #fff; max-width: 700px; margin: 0 auto 30px; font-size: 1.1rem;">Las primeras veinte personas tendrán el estatus de miembro fundador con estos beneficios únicos:</p>
+            <div style="background: white; color: var(--brand-primary); padding: 5px 20px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 20px; display: inline-block;">Oferta Limitada</div>
+            <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 10px;">Miembros Fundadores</h2>
+            <p style="font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">Las primeras veinte personas tendrán el estatus de miembro fundador con estos beneficios únicos:</p>
             
-            <p style="color: #fff; font-size: 1.5rem; margin-top: 30px; font-weight: 800;">
-                Cupos de Fundador restantes: <span id="spots-left" style="background: rgba(0,0,0,0.3); padding: 5px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);">20 / 20</span>
+            <p style="font-size: 1.5rem; margin-top: 30px; font-weight: 800;">
+                Cupos: <span id="spots-left" style="background: rgba(0,0,0,0.3); padding: 5px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);">20 / 20</span>
             </p>
 
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <h3>Pago Congelado</h3>
+                    <h3>❄️ Precio Congelado</h3>
                     <p>Beneficio del precio de lanzamiento congelado por 12 meses.</p>
                 </div>
                 <div class="benefit-item">
-                    <h3>Kit de Bienvenida</h3>
+                    <h3>🎒 Kit Bienvenida</h3>
                     <p>Credencial de membresía premium y kit de merchandising exclusivo.</p>
                 </div>
                 <div class="benefit-item">
-                    <h3>Acceso "Golden Hour"</h3>
-                    <p>Derecho a reservar espacios y servicios con anticipación preferencial sobre el resto de los miembros.</p>
+                    <h3>⏳ Golden Hour</h3>
+                    <p>Derecho a reservar espacios y servicios con anticipación preferencial.</p>
                 </div>
                 <div class="benefit-item">
-                    <h3>Masterclass Exclusiva</h3>
-                    <p>Acceso garantizado a una sesión anual de alto valor con un profesional de la industria (invitado especial).</p>
+                    <h3>🎓 Masterclass VIP</h3>
+                    <p>Acceso garantizado a una sesión anual de alto valor con un profesional de la industria.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="aliados" style="text-align: center; margin-bottom: 80px; margin-top: 40px;">
-        <h3 style="font-size: 1.8rem; color: #666; font-weight: 800;">Aliados Confirmados</h3>
+        <h3 style="font-size: 1.5rem; color: #666; font-weight: 800;">Aliados Confirmados</h3>
         <div class="aliados-list">
             <div class="aliado-item">MELÓMANA ESTRATÉGICA</div>
             <div class="aliado-item">IKATU PRODUCCIONES</div>
@@ -481,7 +410,7 @@
     <section id="cta">
         <div style="text-align: center; margin-bottom: 30px;">
             <h2 style="font-size: 2rem; font-weight: 900; color: var(--brand-primary); margin-bottom: 10px;">¿Te interesa ser parte?</h2>
-            <p style="color: #666; font-size: 1.1rem;">Completa tu pre-inscripción ahora. Nos pondremos en contacto para finalizar el proceso y asegurar tu lugar.</p>
+            <p style="color: #666; font-size: 1rem;">Completa tu pre-inscripción ahora. Nos pondremos en contacto para finalizar el proceso y asegurar tu lugar.</p>
         </div>
         
         <form id="pre-registration-form" action="https://formspree.io/f/xjknopbe" method="POST">
@@ -491,25 +420,24 @@
                     <input type="text" id="name" name="name" required class="form-input">
                 </div>
                 <div>
-                    <label style="display:block; font-weight:700; margin-bottom:8px; font-size: 0.9rem;">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required class="form-input">
+                    <label style="display:block; font-weight:700; margin-bottom:8px; font-size: 0.9rem;">Teléfono (WhatsApp)</label>
+                    <input type="tel" id="phone" name="phone" required class="form-input">
                 </div>
             </div>
             
-            <div class="form-grid">
-                <div>
-                    <label style="display:block; font-weight:700; margin-bottom:8px; font-size: 0.9rem;">Teléfono</label>
-                    <input type="tel" id="phone" name="phone" required class="form-input">
-                </div>
-                <div>
-                    <label style="display:block; font-weight:700; margin-bottom:8px; font-size: 0.9rem;">Plan de Interés</label>
-                    <select id="plan-interest" name="plan-interest" class="form-input" style="background: white;">
-                        <option value="basico">🟡 Plan Básico</option>
-                        <option value="desarrollo">🟠 Plan Desarrollo</option>
-                        <option value="pro">🔴 Plan Pro</option>
-                        <option value="premium">⚫ Plan Premium</option>
-                    </select>
-                </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px; font-size: 0.9rem;">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required class="form-input">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px; font-size: 0.9rem;">Plan de Interés</label>
+                <select id="plan-interest" name="plan-interest" class="form-input" style="background: white;">
+                    <option value="basico">🟡 Plan Básico</option>
+                    <option value="desarrollo">🟠 Plan Desarrollo</option>
+                    <option value="pro">🔴 Plan Pro</option>
+                    <option value="premium">⚫ Plan Premium</option>
+                </select>
             </div>
             
             <div style="margin-bottom: 20px;">
@@ -537,5 +465,83 @@
     
     <script src="js/script.js"></script>
     <script src="js/pulsart-crear.js"></script>
+    <script>
+    // Lógica Formspree + WhatsApp
+    var form = document.getElementById("pre-registration-form");
+    
+    async function handleSubmit(event) {
+        event.preventDefault(); // Evita que la página se recargue sola
+        
+        var status = document.getElementById("form-success");
+        var error = document.getElementById("form-error");
+        var btn = form.querySelector("button");
+        var originalText = btn.innerText;
+
+        // 1. Recopilar datos del formulario
+        var data = new FormData(event.target);
+        
+        // Efecto de "Cargando..."
+        btn.innerText = "Procesando...";
+        btn.disabled = true;
+
+        // 2. Enviar a Formspree (Correo)
+        fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // ÉXITO: Mostrar mensaje y abrir WhatsApp
+                status.style.display = "block";
+                form.reset(); // Limpiar formulario
+                
+                // 3. Preparar mensaje de WhatsApp
+                // Recuperamos los valores que escribió el usuario
+                var nombre = data.get('name');
+                var plan = data.get('plan-interest');
+                var proyecto = data.get('project-type');
+                var email = data.get('email');
+                
+                // Mensaje formateado
+                var textoWhatsApp = `👋 Hola PulsArt! Me acabo de registrar en la web.%0A%0A` +
+                                    `👤 *Nombre:* ${nombre}%0A` +
+                                    `🚀 *Proyecto:* ${proyecto}%0A` +
+                                    `💎 *Plan Interés:* ${plan}%0A` +
+                                    `📧 *Email:* ${email}%0A%0A` +
+                                    `Quedo atento a la confirmación.`;
+
+                // TU NÚMERO AQUÍ (Sin el +)
+                var telefonoDestino = "595972310741"; 
+                
+                // Retraso de 1 segundo para que el usuario vea el "check" verde antes de irse a WhatsApp
+                setTimeout(function() {
+                    window.location.href = `https://wa.me/${telefonoDestino}?text=${textoWhatsApp}`;
+                }, 1000);
+
+            } else {
+                // Error de Formspree
+                response.json().then(data => {
+                    if (Object.hasOwn(data, 'errors')) {
+                        error.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                    } else {
+                        error.innerHTML = "Hubo un problema al enviar el correo.";
+                    }
+                    error.style.display = "block";
+                });
+            }
+        }).catch(error => {
+            document.getElementById("form-error").innerHTML = "Error de conexión. Intenta de nuevo.";
+            document.getElementById("form-error").style.display = "block";
+        }).finally(() => {
+            // Restaurar botón
+            btn.innerText = originalText;
+            btn.disabled = false;
+        });
+    }
+
+    form.addEventListener("submit", handleSubmit);
+</script>
 </body>
 </html>

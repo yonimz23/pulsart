@@ -3,263 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - PulsArt Media</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Admin Portal | Conecta 360°</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #FF6600;
-            --dark: #222;
-            --light: #f4f4f4;
-            --white: #fff;
-            --success: #2ecc71;
+            --brand-primary: #FF9900;  /* Naranja */
+            --brand-accent: #9ECA57;   /* Verde */
+            --brand-dark: #111111;     /* Negro */
+            --bg-light: #F4F4F4;
+            --white: #FFFFFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         
-        body { background-color: #e9ecef; display: flex; height: 100vh; }
+        body { background-color: var(--bg-light); color: #333; height: 100vh; overflow: hidden; display: flex; }
 
-        /* Sidebar */
+        /* --- PANTALLA DE CARGA (NUEVO) --- */
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--brand-dark); z-index: 5000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+        }
+        .spinner {
+            border: 4px solid #333; border-top: 4px solid var(--brand-primary);
+            border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- VISTA: LOGIN --- */
+        #login-view {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            display: none; /* Oculto por defecto */
+            justify-content: center; align-items: center; z-index: 3000;
+        }
+        .login-card {
+            background: white; padding: 50px; border-radius: 15px; width: 400px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-top: 5px solid var(--brand-primary);
+        }
+        .login-logo { width: 150px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 5px; }
+        .form-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
+        .btn-login { 
+            width: 100%; padding: 12px; background: var(--brand-dark); color: white; 
+            border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .btn-login:hover { background: var(--brand-primary); }
+
+        /* --- VISTA: ADMIN PANEL --- */
+        #admin-view { display: none; width: 100%; height: 100%; }
+
+        /* --- SIDEBAR --- */
         .sidebar {
-            width: 250px; background: var(--dark); color: white; display: flex; flex-direction: column;
-            padding: 20px;
+            width: 260px; background: var(--brand-dark); color: white;
+            display: flex; flex-direction: column; padding: 25px;
         }
         .brand { 
-            font-weight: 900; font-size: 1.2rem; color: var(--primary); margin-bottom: 40px; 
-            display: flex; align-items: center; gap: 10px;
+            font-size: 1.2rem; font-weight: 800; color: var(--brand-primary); 
+            margin-bottom: 40px; display: flex; align-items: center; gap: 10px;
         }
         .menu-item {
-            padding: 15px; color: #aaa; text-decoration: none; border-radius: 8px;
-            margin-bottom: 5px; display: flex; align-items: center; gap: 10px; transition: 0.3s;
-            cursor: pointer;
+            padding: 15px; cursor: pointer; border-radius: 10px; margin-bottom: 5px;
+            display: flex; align-items: center; gap: 10px; font-weight: 500; color: #aaa; transition: 0.3s;
         }
-        .menu-item:hover, .menu-item.active { background: rgba(255, 102, 0, 0.2); color: var(--primary); }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--white); }
+        .menu-item i { width: 20px; text-align: center; color: var(--brand-primary); }
 
-        /* Main Content */
-        .main { flex: 1; padding: 30px; overflow-y: auto; }
-        
+        /* --- MAIN AREA --- */
+        .main { flex: 1; padding: 40px; overflow-y: auto; background: var(--bg-light); }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .header h2 { color: var(--dark); }
-
-        /* Formulario de Alta */
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .header h1 { font-size: 1.8rem; font-weight: 800; color: var(--brand-dark); }
         
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.85rem; color: #555; }
-        .form-group input, .form-group select { 
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; 
-            font-family: 'Montserrat', sans-serif;
+        .btn-add {
+            background: var(--brand-accent); color: var(--brand-dark); border: none; padding: 12px 25px; border-radius: 8px; 
+            font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;
         }
-        
-        .btn-submit {
-            background: var(--primary); color: white; border: none; padding: 12px 25px;
-            border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .btn-submit:hover { background: #e55c00; }
+        .btn-add:hover { filter: brightness(1.1); }
 
-        /* Tabla de Clientes */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; padding: 15px; background: #f8f9fa; color: #666; font-size: 0.9rem; border-bottom: 2px solid #ddd; }
-        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-        .badge { 
-            padding: 5px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: bold; 
-            text-transform: uppercase;
-        }
-        .badge-founder { background: #000; color: #FF6600; }
-        .badge-pro { background: #FF6600; color: white; }
-        .badge-basic { background: #eee; color: #666; }
+        /* --- TABLA --- */
+        .table-card { background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #fafafa; padding: 15px 20px; text-align: left; font-size: 0.85rem; font-weight: 700; color: #666; text-transform: uppercase; border-bottom: 2px solid #eee; }
+        td { padding: 15px 20px; border-bottom: 1px solid #eee; font-size: 0.9rem; vertical-align: middle; }
+        tr:hover { background: #f9f9f9; }
 
-        .actions button {
-            border: none; background: none; cursor: pointer; color: #666; font-size: 1rem; margin-right: 10px;
-        }
-        .actions button:hover { color: var(--primary); }
+        .badge-plan { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .plan-basico { background: #eee; color: #555; }
+        .plan-desarrollo { background: #e3f2fd; color: #1565c0; }
+        .plan-pro { background: #e8f5e9; color: #2e7d32; }
+        .plan-premium { background: #fff3e0; color: #ef6c00; }
 
-        /* Modal Generado */
-        #successModal {
+        .btn-icon { border: none; background: none; cursor: pointer; font-size: 1.1rem; color: #999; margin-left: 5px; }
+        .btn-icon:hover { color: var(--brand-primary); }
+        .btn-delete:hover { color: #e74c3c; }
+
+        /* --- MODAL --- */
+        .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 4000;
         }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 10px; width: 400px; text-align: center;
-        }
-        .copy-box {
-            background: #f4f4f4; padding: 15px; margin: 15px 0; border-radius: 5px;
-            font-family: monospace; text-align: left; word-break: break-all;
-        }
+        .modal { background: white; padding: 30px; border-radius: 15px; width: 400px; max-width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <nav class="sidebar">
-        <div class="brand">
-            <i class="fas fa-layer-group"></i> ADMIN 360°
-        </div>
-        <div class="menu-item active">
-            <i class="fas fa-user-plus"></i> Alta Clientes
-        </div>
-        <div class="menu-item">
-            <i class="fas fa-list"></i> Lista Usuarios
-        </div>
-        <div class="menu-item">
-            <i class="fas fa-chart-line"></i> Finanzas
-        </div>
-        <div class="menu-item" style="margin-top: auto; color: #e74c3c;">
-            <i class="fas fa-sign-out-alt"></i> Salir
-        </div>
-    </nav>
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <p style="font-weight: 600; letter-spacing: 1px;">VERIFICANDO ACCESO...</p>
+    </div>
 
-    <main class="main">
-        <div class="header">
-            <h2>Gestión de Membresías</h2>
-            <div style="font-size: 0.9rem;">Admin: <b>Celso Galeano</b></div>
-        </div>
-
-        <div class="card">
-            <h3 style="margin-bottom: 20px; color: var(--primary);">Registrar Nuevo Miembro</h3>
-            <form id="addClientForm" onsubmit="registerClient(event)">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Nombre del Responsable</label>
-                        <input type="text" id="fullname" placeholder="Ej: Juan Pérez" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre Proyecto / Banda</label>
-                        <input type="text" id="project" placeholder="Ej: Los Rockeros" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Correo Electrónico (Login)</label>
-                        <input type="email" id="email" placeholder="artista@gmail.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono / WhatsApp</label>
-                        <input type="tel" id="phone" placeholder="+595 9..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Plan Seleccionado</label>
-                        <select id="plan" onchange="calculateTotal()">
-                            <option value="Basico">Plan Básico (100.000 Gs)</option>
-                            <option value="Desarrollo">Plan Desarrollo (250.000 Gs)</option>
-                            <option value="Pro">Plan PRO (500.000 Gs)</option>
-                            <option value="Founder">Miembro Fundador (Precio Congelado)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de Inicio</label>
-                        <input type="date" id="start_date" required>
-                    </div>
-                </div>
-
-                <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" checked id="auto_password"> 
-                        Generar contraseña automática y enviar por mail
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-save"></i> Guardar y Crear Cliente
-                </button>
+    <div id="login-view">
+        <div class="login-card">
+            <img src="img/conecta.png" alt="Conecta 360" class="login-logo">
+            <h2 style="margin-bottom: 5px;">Portal Admin</h2>
+            <p style="color: #666; margin-bottom: 25px; font-size: 0.9rem;">Acceso restringido</p>
+            <form id="adminLoginForm">
+                <div class="form-group"><label>Email Administrativo</label><input type="email" id="adminEmail" class="form-input" required></div>
+                <div class="form-group"><label>Contraseña</label><input type="password" id="adminPass" class="form-input" required></div>
+                <button type="submit" class="btn-login">Acceder al Panel</button>
             </form>
-        </div>
-
-        <div class="card">
-            <h3>Últimos Registros</h3>
-            <table id="clientTable">
-                <thead>
-                    <tr>
-                        <th>Proyecto</th>
-                        <th>Responsable</th>
-                        <th>Plan</th>
-                        <th>Próx. Pago</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><b>Mr. Hyde</b></td>
-                        <td>Dr. Jekyll</td>
-                        <td><span class="badge badge-founder">Fundador</span></td>
-                        <td>05 Nov 2025</td>
-                        <td class="actions">
-                            <button title="Editar"><i class="fas fa-edit"></i></button>
-                            <button title="Ver Perfil"><i class="fas fa-eye"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>ChabelaRi</b></td>
-                        <td>Isabel R.</td>
-                        <td><span class="badge badge-pro">PRO</span></td>
-                        <td>10 Nov 2025</td>
-                        <td class="actions">
-                            <button title="Editar"><i class="fas fa-edit"></i></button>
-                            <button title="Ver Perfil"><i class="fas fa-eye"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-    <div id="successModal">
-        <div class="modal-content">
-            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success); margin-bottom: 20px;"></i>
-            <h3>¡Cliente Registrado!</h3>
-            <p style="margin-top: 10px;">Comparte estas credenciales con el artista:</p>
-            
-            <div class="copy-box" id="credentials-box">
-                </div>
-            
-            <button onclick="closeModal()" class="btn-submit" style="width: 100%; justify-content: center; margin-top: 0;">Cerrar</button>
         </div>
     </div>
 
+    <div id="admin-view">
+        <nav class="sidebar">
+            <div class="brand"><img src="img/conecta.png" style="height:30px; filter: brightness(0) invert(1);"> ADMIN</div>
+            <div class="menu-item active"><i class="fas fa-users"></i> Usuarios</div>
+            <div class="menu-item"><i class="fas fa-cog"></i> Configuración</div>
+            <div class="menu-item" style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</div>
+        </nav>
+
+        <main class="main">
+            <header class="header">
+                <div><h1>Usuarios Registrados</h1><p style="color: #666;">Gestiona los planes y accesos.</p></div>
+                <button class="btn-add" onclick="openModal()"><i class="fas fa-plus"></i> Nuevo Usuario</button>
+            </header>
+
+            <div class="table-card">
+                <table>
+                    <thead><tr><th>Usuario</th><th>Contacto</th><th>Plan Activo</th><th>Acciones</th></tr></thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <h2 id="modalTitle" style="margin-bottom: 20px;">Nuevo Usuario</h2>
+            <form id="userForm">
+                <input type="hidden" id="editUid">
+                <div class="form-group"><label>Nombre</label><input type="text" id="name" class="form-input" required></div>
+                <div class="form-group"><label>Email</label><input type="email" id="email" class="form-input" required></div>
+                <div class="form-group"><label>Teléfono</label><input type="tel" id="phone" class="form-input" placeholder="0981..." required></div>
+                <div class="form-group" id="passGroup"><label>Contraseña</label><input type="password" id="password" class="form-input"></div>
+                <div class="form-group"><label>Plan</label>
+                    <select id="plan" class="form-input" style="width:100%; padding:10px;">
+                        <option value="basico">Básico</option>
+                        <option value="desarrollo">Desarrollo</option>
+                        <option value="pro">PRO</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-login" style="background:#eee; color:#333; width:auto;" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-login" style="background:var(--brand-primary); width:auto;">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
     <script>
-        // Setear fecha de hoy por defecto
-        document.getElementById('start_date').valueAsDate = new Date();
+        // --- PEGA TUS CREDENCIALES AQUÍ ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBve-f9-BAlYHdgLx0NLjwMK8z5l8C8yW4",
+  authDomain: "conecta360-c0259.firebaseapp.com",
+  projectId: "conecta360-c0259",
+  storageBucket: "conecta360-c0259.firebasestorage.app",
+  messagingSenderId: "614768909024",
+  appId: "1:614768909024:web:2bb1dc4cc5ecd3efe54e85"
+        };
 
-        function registerClient(e) {
-            e.preventDefault();
-            
-            // Recoger datos
-            const project = document.getElementById('project').value;
-            const email = document.getElementById('email').value;
-            const plan = document.getElementById('plan').value;
-            const pass = Math.random().toString(36).slice(-8); // Contraseña aleatoria
-            
-            // Simular guardado en base de datos (Visual)
-            const table = document.getElementById('clientTable').querySelector('tbody');
-            const newRow = `
-                <tr>
-                    <td><b>${project}</b></td>
-                    <td>${document.getElementById('fullname').value}</td>
-                    <td><span class="badge badge-${plan.toLowerCase()}">${plan}</span></td>
-                    <td>${new Date().toLocaleDateString()}</td>
-                    <td class="actions">
-                        <button><i class="fas fa-edit"></i></button>
-                        <button><i class="fas fa-eye"></i></button>
-                    </td>
-                </tr>
-            `;
-            
-            // Insertar arriba
-            table.insertAdjacentHTML('afterbegin', newRow);
+        // --- SEGURIDAD: EMAIL DEL ADMIN ---
+        const ADMIN_EMAIL = "admin@conecta360.com"; // <--- CAMBIA ESTO POR TU EMAIL REAL
 
-            // Mostrar Credenciales en Modal
-            const msg = `URL: app.pulsartmedia.com<br>Usuario: ${email}<br>Contraseña: ${pass}`;
-            document.getElementById('credentials-box').innerHTML = msg;
-            
-            document.getElementById('successModal').style.display = 'flex';
-            
-            // Resetear form
-            document.getElementById('addClientForm').reset();
-            document.getElementById('start_date').valueAsDate = new Date();
+        // Inicializar
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
+
+        let isAdminLoaded = false;
+
+        // --- LÓGICA DE CARGA ESTABLE (Evita bucles) ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Si ya cargamos el panel, no hacer nada para evitar parpadeos
+                if (isAdminLoaded) return;
+
+                if(user.email === ADMIN_EMAIL) {
+                    console.log("Admin autorizado.");
+                    showAdminPanel();
+                    isAdminLoaded = true;
+                } else {
+                    alert("⛔ No tienes permisos de administrador.");
+                    auth.signOut();
+                    showLogin();
+                }
+            } else {
+                // No hay usuario, mostrar login
+                isAdminLoaded = false;
+                showLogin();
+            }
+        });
+
+        // --- MANEJO DE VISTAS ---
+        function showLoading() { document.getElementById('loading-screen').style.display = 'flex'; }
+        
+        function showLogin() { 
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('login-view').style.display = 'flex';
+            document.getElementById('admin-view').style.display = 'none';
         }
 
-        function closeModal() {
-            document.getElementById('successModal').style.display = 'none';
+        function showAdminPanel() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('admin-view').style.display = 'flex';
+            loadUsers(); // Cargar la tabla
+        }
+
+        // --- LOGIN MANUAL ---
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const pass = document.getElementById('adminPass').value;
+            
+            if(email !== ADMIN_EMAIL) return alert("Email no autorizado.");
+
+            showLoading(); // Mostrar carga inmediatamente
+            auth.signInWithEmailAndPassword(email, pass).catch(err => {
+                showLogin(); // Volver si falla
+                alert("Error: " + err.message);
+            });
+        });
+
+       // --- GESTIÓN DE USUARIOS ACTUALIZADA ---
+    function loadUsers() {
+        db.collection("usuarios").onSnapshot((snapshot) => {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+            snapshot.forEach((doc) => {
+                const u = doc.data();
+                // Verificamos si tiene teléfono o ponemos un guión
+                const telefono = u.telefono || '-';
+                
+                const row = `
+                    <tr>
+                        <td>
+                            <div style="font-weight:700;">${u.nombre || '...'}</div>
+                            <div style="font-size:0.8rem; color:#888;">${u.email}</div>
+                        </td>
+                        <td>${telefono}</td>
+                        <td><span class="badge-plan plan-${u.plan_actual}">${u.plan_actual}</span></td>
+                        <td>
+                            <button class="btn-icon" onclick="editUser('${doc.id}', '${u.nombre}', '${u.email}', '${u.plan_actual}', '${u.telefono || ''}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon btn-delete" onclick="deleteUser('${doc.id}')"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+                tbody.innerHTML += row;
+            });
+        });
+    }
+
+    // --- GUARDAR (CREAR O EDITAR) ---
+    const userForm = document.getElementById('userForm');
+    userForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Recogemos todos los datos
+        const uid = document.getElementById('editUid').value;
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value; // <--- NUEVO
+        const plan = document.getElementById('plan').value;
+        const pass = document.getElementById('password').value;
+        
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+        btn.innerText = "Procesando...";
+
+        try {
+            if(uid) {
+                // EDITAR: Guardamos también el teléfono
+                await db.collection("usuarios").doc(uid).update({ 
+                    nombre: name, 
+                    telefono: phone, // <--- GUARDAR TELÉFONO
+                    plan_actual: plan 
+                });
+                alert("Usuario actualizado.");
+            } else {
+                // CREAR
+                if(pass.length < 6) throw new Error("Contraseña muy corta (mínimo 6)");
+                const cred = await secondaryApp.auth().createUserWithEmailAndPassword(email, pass);
+                
+                await db.collection("usuarios").doc(cred.user.uid).set({
+                    nombre: name, 
+                    email: email, 
+                    telefono: phone, // <--- GUARDAR TELÉFONO
+                    plan_actual: plan, 
+                    fecha_registro: new Date()
+                });
+                await secondaryApp.auth().signOut();
+                alert("Usuario creado exitosamente.");
+            }
+            closeModal();
+        } catch(err) { alert(err.message); }
+        
+        btn.innerText = originalText;
+    });
+
+    function openModal() {
+        document.getElementById('userModal').style.display = 'flex';
+        document.getElementById('modalTitle').innerText = "Nuevo Usuario";
+        document.getElementById('editUid').value = "";
+        
+        // Limpiamos los campos
+        document.getElementById('name').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('phone').value = ""; // <--- LIMPIAR TELÉFONO
+        
+        document.getElementById('email').disabled = false;
+        document.getElementById('passGroup').style.display = 'block';
+        userForm.reset();
+    }
+
+    // Recibimos el teléfono como parámetro extra
+    function editUser(uid, name, email, plan, phone) {
+        document.getElementById('userModal').style.display = 'flex';
+        document.getElementById('modalTitle').innerText = "Editar Usuario";
+        document.getElementById('editUid').value = uid;
+        
+        // Rellenamos los datos
+        document.getElementById('name').value = name;
+        document.getElementById('email').value = email;
+        document.getElementById('phone').value = phone; // <--- RELLENAR TELÉFONO
+        
+        document.getElementById('email').disabled = true;
+        document.getElementById('plan').value = plan;
+        document.getElementById('passGroup').style.display = 'none';
+    }
+        function closeModal() { document.getElementById('userModal').style.display = 'none'; }
+        
+        async function deleteUser(uid) {
+            if(confirm("¿Eliminar usuario? (El acceso Auth debe borrarse manualmente)")) await db.collection("usuarios").doc(uid).delete();
+        }
+
+        function logout() {
+            if(confirm("¿Cerrar sesión?")) {
+                showLoading();
+                auth.signOut().then(() => location.reload());
+            }
         }
     </script>
 </body>
