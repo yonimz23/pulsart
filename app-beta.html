@@ -310,23 +310,32 @@
             .catch((error) => { hideLoading(); alert("Error: " + error.message); });
         });
 
-        function loadUserData(uid) {
+      function loadUserData(uid) {
+            console.log("Buscando datos para el usuario:", uid); // Para depuración
+
             db.collection("usuarios").doc(uid).onSnapshot((doc) => {
                 if (doc.exists) {
+                    // --- CASO DE ÉXITO: EL USUARIO EXISTE ---
                     currentUserDoc = doc.data();
                     currentUserDoc.uid = uid;
                     
-                    // --- TOKEN CHECK: Revisa si hay un token de Android pendiente ---
+                    // Chequeo de Token pendiente (Android)
                     const pendingToken = localStorage.getItem('tempFCMToken');
                     if (pendingToken) {
                         console.log("Subiendo token pendiente...");
                         db.collection("usuarios").doc(uid).update({ fcmToken: pendingToken });
                         localStorage.removeItem('tempFCMToken');
                     }
-                    // -------------------------------------------------------------
 
-                    db.collection("config").doc("general").get().then(d => { if(d.exists) { if(d.data().calendarUrl) dynamicCalendarUrl = d.data().calendarUrl; if(d.data().whatsapp) BUSINESS_PHONE = d.data().whatsapp; }});
+                    // Cargar Configuración General
+                    db.collection("config").doc("general").get().then(d => { 
+                        if(d.exists) { 
+                            if(d.data().calendarUrl) dynamicCalendarUrl = d.data().calendarUrl; 
+                            if(d.data().whatsapp) BUSINESS_PHONE = d.data().whatsapp; 
+                        }
+                    });
 
+                    // Iniciar UI
                     initAppUI();
                     loadClientHistory(uid);
                     loadClientInventory();
@@ -341,13 +350,25 @@
                         if(sessionInterval) clearInterval(sessionInterval);
                     }
 
+                    // ¡AQUÍ SE QUITA LA PANTALLA DE CARGA!
                     hideLoading();
                     document.getElementById('login-view').style.display = 'none';
                     document.getElementById('app-view').style.display = window.innerWidth <= 768 ? 'block' : 'flex';
+
+                } else {
+                    // --- CASO DE ERROR: EL USUARIO NO TIENE DATOS ---
+                    console.error("Usuario autenticado pero sin perfil en Firestore.");
+                    hideLoading();
+                    alert("Error: Tu cuenta no tiene un perfil de artista configurado. Contacta al administrador.");
+                    auth.signOut(); // Cerramos sesión para que no se quede en el limbo
                 }
+            }, (error) => {
+                // --- CASO DE ERROR DE CONEXIÓN O PERMISOS ---
+                console.error("Error al leer base de datos:", error);
+                hideLoading();
+                alert("Error de conexión: " + error.message);
             });
         }
-
         // --- CARGAR ENTREGABLES (LINK DESDE ADMIN) ---
         function loadDeliverables() {
             const list = document.getElementById('deliverables-list');
