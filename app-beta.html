@@ -17,17 +17,20 @@
         .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--brand-primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* HEADER & NOTIF */
         .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .notification-icon { font-size: 1.5rem; color: var(--brand-dark); cursor: pointer; position: relative; }
         #notif-badge { position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: red; border-radius: 50%; display: none; }
         #notif-drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: white; z-index: 4500; box-shadow: -5px 0 20px rgba(0,0,0,0.1); padding: 20px; transition: 0.3s; }
         #notif-drawer.open { right: 0; }
 
+        /* LOGIN */
         #login-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-dark) 100%); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
         .login-card { background: var(--white); padding: 40px 30px; border-radius: 25px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
         .form-input { width: 100%; padding: 16px; border: 2px solid #eee; border-radius: 12px; margin-bottom:15px; font-family: 'Montserrat', sans-serif; }
         .btn-primary { background: var(--brand-accent); color: var(--brand-dark); border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; }
         
+        /* APP LAYOUT */
         #app-view { display: none; width: 100%; }
         .sidebar { width: var(--sidebar-width); background: var(--white); height: 100vh; border-right: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; padding: 30px; position: fixed; top: 0; left: 0; z-index: 100; }
         .nav-link { display: flex; align-items: center; gap: 15px; padding: 14px 20px; text-decoration: none; color: #666; font-weight: 600; border-radius: 12px; transition: all 0.2s; font-size: 0.95rem; margin-bottom: 8px; }
@@ -37,6 +40,7 @@
         .section-view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* UI ELEMENTS */
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .card { background: var(--white); border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
         .card-label { color: #888; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 10px; }
@@ -290,8 +294,13 @@
         let currentServiceType = '';
 
         auth.onAuthStateChanged((user) => {
-            if (user) { if(!currentUserDoc || currentUserDoc.uid !== user.uid) loadUserData(user.uid); } 
-            else { hideLoading(); document.getElementById('login-view').style.display = 'flex'; document.getElementById('app-view').style.display = 'none'; }
+            if (user) { 
+                if(!currentUserDoc || currentUserDoc.uid !== user.uid) loadUserData(user.uid); 
+            } else { 
+                hideLoading(); 
+                document.getElementById('login-view').style.display = 'flex'; 
+                document.getElementById('app-view').style.display = 'none'; 
+            }
         });
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
@@ -307,6 +316,15 @@
                     currentUserDoc = doc.data();
                     currentUserDoc.uid = uid;
                     
+                    // --- TOKEN CHECK: Revisa si hay un token de Android pendiente ---
+                    const pendingToken = localStorage.getItem('tempFCMToken');
+                    if (pendingToken) {
+                        console.log("Subiendo token pendiente...");
+                        db.collection("usuarios").doc(uid).update({ fcmToken: pendingToken });
+                        localStorage.removeItem('tempFCMToken');
+                    }
+                    // -------------------------------------------------------------
+
                     db.collection("config").doc("general").get().then(d => { if(d.exists) { if(d.data().calendarUrl) dynamicCalendarUrl = d.data().calendarUrl; if(d.data().whatsapp) BUSINESS_PHONE = d.data().whatsapp; }});
 
                     initAppUI();
@@ -333,7 +351,6 @@
         // --- CARGAR ENTREGABLES (LINK DESDE ADMIN) ---
         function loadDeliverables() {
             const list = document.getElementById('deliverables-list');
-            // Busca el campo deliverableLink en el documento del usuario
             if(currentUserDoc.deliverableLink && currentUserDoc.deliverableLink.trim() !== "") {
                 list.innerHTML = `
                     <a href="${currentUserDoc.deliverableLink}" target="_blank" class="file-item">
@@ -355,10 +372,8 @@
             }
         }
 
-        // --- HISTORIAL (CORREGIDO) ---
+        // --- HISTORIAL (ORDENADO EN LOCAL) ---
         function loadClientHistory(uid) {
-            // ELIMINADO EL .ORDERBY para evitar errores de índice en Firebase.
-            // Se descarga y se ordena aquí mismo en el navegador.
             db.collection("historial").where("uid", "==", uid).get()
             .then(snap => {
                 const list = document.getElementById('history-list');
@@ -370,7 +385,7 @@
                 let docs = [];
                 snap.forEach(doc => docs.push(doc.data()));
                 
-                // ORDENAR EN JS (Más seguro para evitar errores)
+                // ORDENAR EN JS (Más seguro para evitar errores de índice en Firebase)
                 docs.sort((a, b) => {
                     const dateA = a.fecha && a.fecha.toDate ? a.fecha.toDate() : new Date(a.fecha || 0);
                     const dateB = b.fecha && b.fecha.toDate ? b.fecha.toDate() : new Date(b.fecha || 0);
@@ -382,6 +397,7 @@
                 docs.slice(0, 5).forEach(d => {
                     const dateObj = d.fecha && d.fecha.toDate ? d.fecha.toDate() : new Date(d.fecha);
                     const dateStr = dateObj.toLocaleDateString();
+                    // Usamos d.duracion directamente porque ahora el admin guarda "2h 30m"
                     list.innerHTML += `
                         <div class="list-item">
                             <div><div class="list-title">${d.servicio}</div><div class="list-sub">${dateStr}</div></div>
@@ -515,6 +531,26 @@
         function updateProfile(e) { e.preventDefault(); db.collection("usuarios").doc(auth.currentUser.uid).update({ telefono: document.getElementById('input-phone').value }).then(()=>{ document.getElementById('profile-alert').style.display='block'; setTimeout(()=>document.getElementById('profile-alert').style.display='none',3000); }); }
         function changePassword(e) { e.preventDefault(); const p=document.getElementById('new-pass').value; auth.currentUser.updatePassword(p).then(()=>alert("Contraseña actualizada")).catch(e=>alert(e.message)); }
         function changePlan(key) { if(confirm("¿Cambiar plan?")) window.location.href = `https://wa.me/${BUSINESS_PHONE}?text=Hola, soy ${currentUserDoc.nombre}, quiero cambiar al plan ${key}`; }
+
+        // --- FUNCIÓN PARA RECIBIR TOKEN DESDE ANDROID STUDIO ---
+        function saveFCMToken(token) {
+            console.log("📲 Token recibido desde Android:", token);
+            
+            // Si el usuario ya está logueado, guardamos directo en Firebase
+            if (auth.currentUser) {
+                db.collection("usuarios").doc(auth.currentUser.uid).update({
+                    fcmToken: token
+                }).then(() => {
+                    console.log("✅ Token guardado en Firebase exitosamente.");
+                }).catch(err => {
+                    console.error("❌ Error al guardar token:", err);
+                });
+            } else {
+                // Si aún no se ha logueado, lo guardamos en la memoria del celular temporalmente
+                localStorage.setItem('tempFCMToken', token);
+                console.log("⏳ Usuario no logueado. Token guardado en memoria temporal.");
+            }
+        }
     </script>
 </body>
 </html>
