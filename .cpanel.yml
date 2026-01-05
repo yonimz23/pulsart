@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/TU_USUARIO/public_html/
+    - export DEPLOYPATH=/home/pulsartpy/public_html/
     - /bin/cp -R * $DEPLOYPATH
