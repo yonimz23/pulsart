@@ -1,16 +1,16 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume - Yonathan Martinez</title>
+    <title>CV - Yonathan Martinez (Programador Jr)</title>
     <style>
         :root {
-            --primary-color: #2c3e50; /* Professional Navy Blue */
-            --secondary-color: #34495e; /* Dark Slate */
-            --accent-color: #3498db; /* Bright Blue for highlights */
-            --text-color: #333;
-            --bg-color: #f4f7f6;
+            --primary-color: #2563eb; /* Azul 'Tech' más vibrante */
+            --secondary-color: #1e293b; /* Gris oscuro moderno */
+            --accent-color: #3b82f6; 
+            --text-color: #334155;
+            --bg-color: #f1f5f9;
             --white: #ffffff;
         }
 
@@ -18,7 +18,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; /* Fuente más moderna */
         }
 
         body {
@@ -29,19 +29,19 @@
             padding: 20px;
         }
 
-        /* A4 Layout */
+        /* Formato A4 */
         .page {
             background: var(--white);
             width: 210mm;
             min-height: 297mm;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             display: grid;
-            grid-template-columns: 28% 72%; /* Sidebar / Main Content ratio */
+            grid-template-columns: 30% 70%;
         }
 
-        /* SIDEBAR (Left) */
+        /* BARRA LATERAL (Izquierda) */
         .sidebar {
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             color: var(--white);
             padding: 30px 20px;
             text-align: left;
@@ -53,20 +53,19 @@
         }
 
         .profile-icon {
-            width: 130px;
-            height: 130px;
-            background: #e0e0e0;
+            width: 120px;
+            height: 120px;
+            background: #cbd5e1;
             border-radius: 50%;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #555;
-            border: 4px solid rgba(255,255,255,0.2);
+            color: #475569;
+            border: 4px solid rgba(255,255,255,0.1);
             overflow: hidden; 
         }
 
-        /* If using a real photo, this class applies */
         .profile-icon img {
             width: 100%;
             height: 100%;
@@ -74,13 +73,15 @@
         }
 
         .sidebar h2 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             margin-bottom: 15px;
             padding-bottom: 5px;
-            margin-top: 30px;
-            letter-spacing: 1px;
+            margin-top: 25px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            color: #93c5fd; /* Azul claro para títulos */
         }
 
         .contact-info div {
@@ -88,14 +89,14 @@
             font-size: 0.85rem;
             display: flex;
             align-items: center;
-            word-break: break-all;
+            word-break: break-word;
         }
 
         .contact-info i {
             margin-right: 12px;
-            width: 15px;
+            width: 16px;
             text-align: center;
-            color: var(--accent-color);
+            color: #60a5fa;
         }
 
         .skills-list, .lang-list {
@@ -103,55 +104,61 @@
         }
 
         .skills-list li, .lang-list li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 0.85rem;
         }
 
-        /* Skill bars */
+        /* Barras de habilidad */
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+        
         .level-bar {
-            background: rgba(255,255,255,0.15);
-            height: 5px;
+            background: rgba(255,255,255,0.1);
+            height: 6px;
             border-radius: 3px;
-            margin-top: 5px;
             overflow: hidden;
         }
 
         .level-fill {
             height: 100%;
-            background: var(--accent-color);
+            background: var(--primary-color);
         }
 
-        /* MAIN CONTENT (Right) */
+        /* CONTENIDO PRINCIPAL (Derecha) */
         .main-content {
             padding: 40px;
         }
 
         .header-name h1 {
-            font-size: 2.2rem;
-            color: var(--primary-color);
+            font-size: 2.4rem;
+            color: var(--secondary-color);
             line-height: 1;
             margin-bottom: 5px;
             text-transform: uppercase;
+            font-weight: 800;
         }
 
         .header-name h3 {
-            font-size: 1rem;
-            color: var(--accent-color);
-            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 25px;
         }
 
         .section {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .section-title {
             font-size: 1.1rem;
-            color: var(--primary-color);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
+            color: var(--secondary-color);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
             margin-bottom: 15px;
             text-transform: uppercase;
             font-weight: 700;
@@ -161,18 +168,18 @@
         
         .section-title i {
             margin-right: 10px;
-            color: var(--secondary-color);
+            color: var(--primary-color);
         }
 
         .profile-text {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #444;
+            color: #475569;
             text-align: justify;
         }
 
         .job-item, .edu-item {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .job-header {
@@ -185,34 +192,34 @@
         .job-title {
             font-weight: 700;
             font-size: 1rem;
-            color: #222;
+            color: #1e293b;
         }
 
         .company {
             font-weight: 600;
-            color: var(--accent-color);
+            color: var(--primary-color);
             font-size: 0.9rem;
         }
 
         .company a {
-            color: var(--accent-color);
+            color: var(--primary-color);
             text-decoration: none;
         }
 
         .date {
             font-size: 0.8rem;
-            color: #666;
-            background: #eee;
-            padding: 3px 8px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 4px 8px;
             border-radius: 4px;
-            white-space: nowrap;
+            font-weight: 600;
         }
 
         .job-desc {
             font-size: 0.9rem;
             line-height: 1.5;
-            color: #555;
-            margin-top: 5px;
+            color: #475569;
+            margin-top: 8px;
         }
 
         .job-desc ul {
@@ -221,22 +228,36 @@
         }
         
         .job-desc li {
-            margin-bottom: 3px;
+            margin-bottom: 5px;
+        }
+
+        /* Etiquetas para tecnologías usadas en el trabajo (Buen detalle para Juniors) */
+        .tech-tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 4px;
+            margin-top: 3px;
+            font-weight: 600;
         }
 
         .ref-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
         }
         
         .ref-item {
             font-size: 0.85rem;
-            border-left: 3px solid var(--accent-color);
+            border-left: 3px solid var(--primary-color);
             padding-left: 10px;
+            background: #f8fafc;
+            padding: 10px;
         }
 
-        /* Print Settings */
         @media print {
             body { background: none; padding: 0; }
             .page { box-shadow: none; width: 100%; height: auto; margin: 0; }
@@ -245,6 +266,7 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -256,163 +278,167 @@
                 </div>
             </div>
 
-            <h2>Contact</h2>
+            <h2>Contacto</h2>
             <div class="contact-info">
-                <div><i class="fas fa-phone"></i> +595 972 310-741</div>
+                <div><i class="fas fa-phone"></i> (0972) 310-741</div>
                 <div><i class="fas fa-envelope"></i> yonathanmz23@gmail.com</div>
                 <div><i class="fas fa-map-marker-alt"></i> Ypacaraí, Central</div>
-                </div>
+                <div><i class="fab fa-github"></i> github.com/yonathanm</div> 
+                <div><i class="fab fa-linkedin"></i> linkedin.com/in/yonathan</div>
+            </div>
 
-            <h2>Hard Skills</h2>
+            <h2>Skills Técnicas</h2>
             <ul class="skills-list">
                 <li>
-                    Python
+                    <div class="skill-name"><span>Python / Django</span></div>
                     <div class="level-bar"><div class="level-fill" style="width: 80%"></div></div>
                 </li>
                 <li>
-                    HTML5 & CSS3
-                    <div class="level-bar"><div class="level-fill" style="width: 90%"></div></div>
+                    <div class="skill-name"><span>HTML5, CSS3, JS</span></div>
+                    <div class="level-bar"><div class="level-fill" style="width: 85%"></div></div>
                 </li>
                 <li>
-                    JavaScript
+                    <div class="skill-name"><span>Flutter (Móvil)</span></div>
                     <div class="level-bar"><div class="level-fill" style="width: 65%"></div></div>
                 </li>
                 <li>
-                    Android Studio
-                    <div class="level-bar"><div class="level-fill" style="width: 60%"></div></div>
-                </li>
-                <li>
-                    MySQL / PostgreSQL
+                    <div class="skill-name"><span>SQL (MySQL/PostgreSQL)</span></div>
                     <div class="level-bar"><div class="level-fill" style="width: 75%"></div></div>
                 </li>
                 <li>
-                    Hardware & IT Support
-                    <div class="level-bar"><div class="level-fill" style="width: 95%"></div></div>
+                    <div class="skill-name"><span>Git & GitHub</span></div>
+                    <div class="level-bar"><div class="level-fill" style="width: 70%"></div></div>
                 </li>
                 <li>
-                    AutoCAD
-                    <div class="level-bar"><div class="level-fill" style="width: 50%"></div></div>
+                    <div class="skill-name"><span>Soporte TI & Hardware</span></div>
+                    <div class="level-bar"><div class="level-fill" style="width: 90%"></div></div>
                 </li>
             </ul>
 
-            <h2>Languages</h2>
+            <h2>Idiomas</h2>
             <ul class="lang-list">
-                <li><strong>Spanish:</strong> Native</li>
-                <li><strong>Guaraní:</strong> Native</li>
-                <li><strong>English:</strong> Advanced Technical</li>
+                <li><strong>Español:</strong> Nativo</li>
+                <li><strong>Guaraní:</strong> Nativo</li>
+                <li><strong>Inglés:</strong> Técnico Avanzado</li>
             </ul>
         </aside>
 
         <main class="main-content">
             <header class="header-name">
                 <h1>YONATHAN E. MARTINEZ</h1>
-                <h3>Computer Engineering Student | Web Developer</h3>
+                <h3>Programador Junior | Desarrollador Web</h3>
             </header>
 
             <section class="section">
-                <div class="section-title"><i class="fas fa-user-circle"></i> Professional Profile</div>
+                <div class="section-title"><i class="fas fa-code"></i> Perfil Profesional</div>
                 <p class="profile-text">
-                    3rd-year Computer Engineering student with solid practical experience in web development and technical support. 
-                    Proven ability in hardware/software maintenance and solution development using Python, SQL databases, and web technologies. 
-                    Passionate about technical problem-solving and system optimization.
+                    Programador Junior y estudiante avanzado de Ingeniería en Informática. Cuento con experiencia práctica en el ciclo completo de desarrollo web y móvil (Full Stack básico), desde el diseño en HTML/CSS hasta la lógica en Python y Flutter. 
+                    <br><br>
+                    Apasionado por escribir código limpio y optimizado. Busco una oportunidad para aplicar mis habilidades en bases de datos y desarrollo de software, aportando soluciones técnicas mientras continúo mi crecimiento profesional.
                 </p>
             </section>
 
             <section class="section">
-                <div class="section-title"><i class="fas fa-briefcase"></i> Work Experience</div>
+                <div class="section-title"><i class="fas fa-briefcase"></i> Experiencia Laboral</div>
                 
                 <div class="job-item">
                     <div class="job-header">
                         <div>
-                            <div class="job-title">Web Developer & IT Support (Remote & On-site)</div>
-                            <div class="company">PulsArt Media | <a href="http://www.pulsartmedia.com.py" target="_blank">pulsartmedia.com.py</a></div>
+                            <div class="job-title">Programador Web & Soporte TI</div>
+                            <div class="company">PulsArt Media</div>
                         </div>
-                        <span class="date">2024 - Present</span>
+                        <span class="date">2024 - Presente</span>
                     </div>
                     <div class="job-desc">
                         <ul>
-                            <li>Development and maintenance of the corporate website, ensuring functionality and responsive design.</li>
-                            <li>Comprehensive technical support: equipment diagnosis and software installation.</li>
-                            <li>Management of updates to optimize site performance.</li>
+                            <li>Desarrollo integral del sitio web corporativo, implementando diseño responsivo y optimización SEO.</li>
+                            <li>Mantenimiento del código base y actualización de módulos para mejorar la experiencia de usuario.</li>
+                            <li>Diagnóstico y resolución de incidencias de software y hardware para el equipo interno.</li>
                         </ul>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Soporte IT</span>
                     </div>
                 </div>
 
                 <div class="job-item">
                     <div class="job-header">
                         <div>
-                            <div class="job-title">Admin Assistant, Customer Service & Web Dev</div>
-                            <div class="company">Hospedaje Yeruti | <a href="http://www.hospedajeyeruti.online" target="_blank">hospedajeyeruti.online</a></div>
+                            <div class="job-title">Desarrollador Web & Administrativo</div>
+                            <div class="company">Hospedaje Yeruti</div>
                         </div>
                         <span class="date">2022 - 2025</span>
                     </div>
                     <div class="job-desc">
                         <ul>
-                            <li>Administrative management, invoicing, and collections.</li>
-                            <li>Development and maintenance of the corporate website.</li>
-                            <li>Social media management and direct customer service.</li>
+                            <li>Creación y despliegue de la página web del negocio (hospedajeyeruti.online), aumentando la visibilidad digital.</li>
+                            <li>Gestión técnica de la plataforma y soporte a usuarios.</li>
+                            <li>Automatización de tareas administrativas básicas mediante herramientas digitales.</li>
                         </ul>
+                        <span class="tech-tag">Web Design</span>
+                        <span class="tech-tag">Gestión CMS</span>
                     </div>
                 </div>
 
                 <div class="job-item">
                     <div class="job-header">
                         <div>
-                            <div class="job-title">Technical Internship (Draftsman)</div>
-                            <div class="company">ANDE (National Electricity Administration)</div>
+                            <div class="job-title">Pasantía Técnica (Dibujante CAD)</div>
+                            <div class="company">ANDE</div>
                         </div>
                         <span class="date">2019 - 2020</span>
                     </div>
                     <div class="job-desc">
                         <ul>
-                            <li>Drafting of technical plans and sketches using AutoCAD.</li>
-                            <li>Support in site supervision and project budgeting.</li>
+                            <li>Digitalización de planos técnicos de alta precisión utilizando AutoCAD.</li>
+                            <li>Colaboración en proyectos de infraestructura eléctrica.</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <section class="section">
-                <div class="section-title"><i class="fas fa-graduation-cap"></i> Education</div>
+                <div class="section-title"><i class="fas fa-graduation-cap"></i> Formación Académica</div>
                 
                 <div class="job-header">
                     <div>
-                        <div class="job-title">Computer Engineering (3rd Year)</div>
+                        <div class="job-title">Ingeniería en Informática (3er Año)</div>
                         <div class="company">Universidad del Norte - Filial Cordillera</div>
                     </div>
-                    <span class="date">In Progress</span>
+                    <span class="date">En Curso</span>
                 </div>
 
                 <div class="job-header" style="margin-top: 15px;">
                     <div>
-                        <div class="job-title">Technical High School Diploma in Informatics</div>
+                        <div class="job-title">Bachillerato Técnico en Informática</div>
                         <div class="company">Colegio Politécnico Cooperativa Ypacaraí Ltda.</div>
                     </div>
                 </div>
 
-                <div style="margin-top: 15px;">
-                    <div class="job-title" style="font-size: 0.9rem; margin-bottom: 5px;">Certifications & Courses:</div>
-                    <ul style="font-size: 0.85rem; color: #555; margin-left: 20px;">
-                        <li><strong>MITIC:</strong> Digital Media Security</li>
-                        <li><strong>SNPP:</strong> Networks III - IP Addressing</li>
-                        <li><strong>SNPP:</strong> Python Programming</li>
-                        <li><strong>SNPP:</strong> Android Studio</li>
+                <div style="margin-top: 20px;">
+                    <div class="job-title" style="font-size: 0.95rem; margin-bottom: 8px;">Certificaciones Relevantes:</div>
+                    <ul style="font-size: 0.85rem; color: #475569; margin-left: 20px; columns: 2;">
+                        <li><strong>MITIC:</strong> Seguridad en Medios Digitales</li>
+                        <li><strong>SNPP:</strong> Programación en Python</li>
+                        <li><strong>SNPP:</strong> Desarrollo con Android Studio</li>
+                        <li><strong>SNPP:</strong> Redes III - Direccionamiento IP</li>
                     </ul>
                 </div>
             </section>
             
             <section class="section">
-                 <div class="section-title"><i class="fas fa-star"></i> References</div>
+                 <div class="section-title"><i class="fas fa-star"></i> Referencias</div>
                  <div class="ref-grid">
                      <div class="ref-item">
-                         <strong>Lucia Rodriguez</strong><br>
-                         Owner at Hospedaje Yeruti<br>
-                         Tel: +595 986-534-487
+                         <strong>Martin López (PulsArt)</strong><br>
+                         Jefe Directo<br>
+                         <span style="font-size: 0.8rem; color: #666;">Tel: (0982) 250-227</span>
                      </div>
                      <div class="ref-item">
-                         <strong>Martin López</strong><br>
-                         Direct Supervisor (PulsArt)<br>
-                         Tel: +595 982-250-227
+                         <strong>Lucia Rodriguez (Yeruti)</strong><br>
+                         Propietaria<br>
+                         <span style="font-size: 0.8rem; color: #666;">Tel: (0986) 534-487</span>
                      </div>
                  </div>
             </section>
@@ -421,4 +447,5 @@
     </div>
 
 </body>
-</html>
+ </html>
+                     
